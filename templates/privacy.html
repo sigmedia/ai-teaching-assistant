@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy{% endblock %}
+
+{% block extra_css %}
+<style>
+    .main-container {
+        max-width: 800px;
+        padding: 40px 40px;
+        margin: 0 auto;
+        text-align: left;
+    }
+
+    .main-container h1 {
+        text-align: left;
+    }
+
+    .main-container h2 {
+        margin-top: 36px;
+        text-align: left;
+    }
+
+    .main-container p {
+        padding: 0;
+        line-height: 1.6;
+    }
+
+    .main-container .table {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        background-color: #f3f3f3;
+        border: 1px solid lightgray;
+        padding: 4px 16px 16px 16px;
+        font-size: 0.95em;
+    }
+
+    .main-container .table-row {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main-container .indent {
+        margin-left: 20px;
+    }
+
+    .main-container .table-em {
+        font-style: italic;
+        margin-top: 12px;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="main-container">
+    <h1>Privacy Statement</h1>
+
+        <h2>Introduction</h2>
+        <p>This page could be used for a Privacy Statement, if one is needed. The information below may be useful as input.</p>
+
+        <h2>About {{bot_name}}</h2>
+        <p>{{bot_name}} (also known as "the chatbot") was designed and created specifically for a research study. It is not a generally available product or service.
+            Only anonymous data is collected by the chatbot.</p>
+
+        <h2>Compliance Note</h2>
+        <p>You are responsible for modifying the chatbot to comply with ethics, security and data protection requirements to comply with the rules of your institution and/or region.</p>
+        
+        <h2>Anonymous Session Cookie</h2>
+        <p>The chatbot uses an anonymous session cookie necessary for it to function, and for the core research purposes of the original study for which it was created. 
+            The cookie lasts for the duration of a browsing session. Here are more details about it:</p>
+        <div class="table">
+            <div class="table-row">
+                <div class="table-em">Cookie Name:</div>
+                <div>anon_session</div>
+            </div>
+            <div class="table-row">
+                <div class="table-em">Expires:</div>
+                <div>Session</div>
+            </div>
+            <div class="table-row">
+                <div class="table-em">Content:</div>
+                <div>Anonymous session identifier</div>
+            </div>
+            <div class="table-row">
+                <div class="table-em">Purpose:</div>
+                <div>Used by the server to maintain an anonymised user session, to enable the chatbot to maintain a temporally consistent conversation with the user, and to enable the collection of anonymous data essential for the core research purposes of the original study for which it was created.</div>
+            </div>
+        </div>
+
+        <h2>Data Collected</h2>
+        
+        <p>The following data is collected from each chat session:</p>
+        <ul>
+            <li>An anonymous session identifier that uniquely and anonymously identifies the session</li>
+            <li>When the chat session started (date and time)</li>
+            <li>When the chat session ended (date and time)</li>
+            <li>Record of the user's agreement to {User agreement part 1} and {User agreement part 2}</li>
+        </ul>
+        <p>For each chat message sent in the session, the following data is collected:</p>
+        <ul>
+            <li>Anonymous session identifier (so that each message can be linked to its corresponding session)</li>
+            <li>Content of the message sent by the user or chatbot</li>
+            <li>When the message was sent by the user or chatbot (date and time)</li>
+        </ul>
+
+</div>
+{% endblock %}

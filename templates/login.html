@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block extra_js %}
+<script>
+    function togglePassword(button) {
+        const passwordInput = button.previousElementSibling;
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+        } else {
+            passwordInput.type = "password";
+        }
+    }
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+    .main-container {
+        height: 100vh;
+        width: 100%;
+        max-width: 948px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        padding: 60px 0;
+    }
+
+    .main-container h1 {
+        margin: 0 0 8px 0;
+    }
+
+    .main-container h2 {
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: normal;
+    }
+
+    .login-container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        padding: 0 20px;
+    }
+
+    .intro {
+        margin: 20px 0 4px 0;
+        padding: 8px 20px;
+        border-radius: 8px;
+        background-color: #E8F1F8;
+        color: #0A4885;
+        font-size: 0.95rem;
+        text-align: left;
+    }
+
+    .intro p {
+        margin: 10px 0;
+    }
+
+    .intro ul {
+        margin: 8px 0;
+    }
+
+    #login-form {
+        margin: 0 auto;
+        width: 100%;
+        flex-direction: column;
+        max-width: 424px;
+        display: flex;
+        gap: 16px;
+        justify-items: center;
+    }
+
+    .password-container {
+        position: relative;
+        display: inline-block;
+        width: 100%; /* Ensure container takes full width of parent */
+    }
+    
+    .toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        color: #333;
+        z-index: 10; /* Ensure button is clickable */
+    }
+
+    .toggle-password:hover {
+        background: none;
+        color: #004add;
+    }
+    
+    input[name="password"] {
+        width: 100%; /* Make input fill container */
+        padding-right: 35px; /* Make room for the icon */
+        box-sizing: border-box; /* Include padding in width calculation */
+    }
+
+    .agreement {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        text-align: left;
+    }
+
+    .agreement input-group {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .agreement input {
+        margin-top: 0;
+        margin-right: 8px;
+        height: 20px;
+    }
+
+    .agreement label {
+        font-size: 0.9rem;
+    }
+
+    button#login {
+        background: linear-gradient(45deg, #2C5A8F 0%, #206D63 50%, #6B4D9E 100%);
+        margin-bottom: 60px;
+        padding: 12px 16px;
+        font-size: 1.1rem;
+        border-radius: 6px;
+  
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <div class="login-container">
+        <h1>{{ bot_name }}</h1>
+        <h2>A chatbot that knows about {{ course_name }}</h2>
+        <div class="intro">
+            <p>This place could be used to convey information to participants. For example:</p>
+             <ul>
+                <li>This research uses an anonymous session cookie necessary for this tool to function.</li>
+                <li>The data stored by this tool is anonymous.</li>
+                <li>This data will be used for research purposes to do X, Y and Z.</li>
+                <li>For more information, see our <a href="/static/Participant_Information_Leaflet.pdf" target="_blank">Participant Information Leaflet</a> and/or our <a href="/privacy" target="_blank">Privacy Statement</a>.</li>
+            </ul>
+        </div>
+        <h3>Anonymous Log In</h3>
+        <form id="login-form" method="POST" action="/login">
+            <input type="text" name="username" placeholder="Username" required>
+            <div class="password-container">
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="button" class="toggle-password" onclick="togglePassword(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </button>
+            </div>
+            <div class="agreement">
+                <input-group>               
+                    <input type="checkbox" name="agreement_part_1" id="agreement_part_1" required>
+                    <label for="agreement_part_1">User agreement part 1. This could be used to comply with local ethics or other regulations. For example: I have read the <a href="/static/Participant_Information_Leaflet.pdf" target="_blank">Participant Information Leaflet</a> and I agree to take part in the research study</label>
+                </input-group>
+                <input-group>
+                    <input type="checkbox" name="agreement_part_2" id="agreement_part_2" required>
+                    <label for="agreement_part_2">User agreement part 2. This could be used to comply with local ethics or other regulations</label>
+                </input-group>
+            </div>
+            {% if error %}
+            <div class="error">{{ error }}</div>
+            {% endif %}
+            <button id="login" type="submit">Login</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
