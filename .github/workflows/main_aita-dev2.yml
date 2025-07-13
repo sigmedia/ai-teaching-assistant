@@ -67,5 +67,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'aita-dev'
+          app-name: 'aita-dev2'
           slot-name: 'Production'
