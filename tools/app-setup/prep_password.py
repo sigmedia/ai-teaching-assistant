@@ -12,7 +12,7 @@ def main():
     args = parser.parse_args()
     
     hashed = hash_password(args.password)
-    print(hashed.decode('utf-8'))
+    print(hashed)
 
 if __name__ == "__main__":
     main()
