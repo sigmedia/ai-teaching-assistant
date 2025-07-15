@@ -1,0 +1,120 @@
+id: bring_your_own_data_chat_qna
+name: Bring Your Own Data Chat QnA
+inputs:
+  chat_history:
+    type: list
+    default:
+    - inputs:
+        chat_input: Hi
+      outputs:
+        chat_output: Hello! How can I assist you today?
+    - inputs:
+        chat_input: What is Azure compute instance?
+      outputs:
+        chat_output: An Azure Machine Learning compute instance is a fully managed
+          cloud-based workstation for data scientists. It provides a
+          pre-configured and managed development environment in the cloud for
+          machine learning. Compute instances can also be used as a compute
+          target for training and inferencing for development and testing
+          purposes. They have a job queue, run jobs securely in a virtual
+          network environment, and can run multiple small jobs in parallel.
+          Additionally, compute instances support single-node multi-GPU
+          distributed training jobs.
+    is_chat_input: false
+    is_chat_history: true
+  chat_input:
+    type: string
+    default: How can I create one using azureml sdk V2?
+    is_chat_input: true
+outputs:
+  chat_output:
+    type: string
+    reference: ${chat_with_context.output}
+    is_chat_output: true
+nodes:
+- name: replace_phrases
+  type: python
+  source:
+    type: code
+    path: rewrite_allowable_content.py
+  inputs:
+    chat_input: ${inputs.chat_input}
+  use_variants: false
+- name: get_current_date_and_time
+  type: python
+  source:
+    type: code
+    path: get_current_time.py
+  inputs:
+    chat_input: ${inputs.chat_input}
+  use_variants: false
+- name: lookup
+  type: python
+  source:
+    type: package
+    tool: promptflow_vectordb.tool.common_index_lookup.search
+  inputs:
+    mlindex_content: >
+      embeddings:
+        api_base: https://ai-aitaschub186483217280.openai.azure.com/
+        api_type: azure
+        api_version: 2023-07-01-preview
+        batch_size: '1'
+        connection:
+          id: /subscriptions/bd49f1a2-c2d5-4dfc-baa5-d532eb5dda97/resourceGroups/aita-sc-resource-group/providers/Microsoft.MachineLearningServices/workspaces/aita-sc-project/connections/ai-aitaschub186483217280_aoai
+        connection_type: workspace_connection
+        deployment: text-embedding-ada-002
+        dimension: 1536
+        kind: open_ai
+        model: text-embedding-ada-002
+        schema_version: '2'
+      index:
+        api_version: 2024-05-01-preview
+        connection:
+          id: /subscriptions/bd49f1a2-c2d5-4dfc-baa5-d532eb5dda97/resourceGroups/aita-sc-resource-group/providers/Microsoft.MachineLearningServices/workspaces/aita-sc-project/connections/aitanesearchservice
+        connection_type: workspace_connection
+        endpoint: https://aita-ne-search-service.search.windows.net/
+        engine: azure-sdk
+        field_mapping:
+          content: content
+          embedding: contentVector
+          metadata: meta_json_string
+        index: 5c01-index-26mar2025
+        kind: acs
+        semantic_configuration_name: azureml-default
+    queries: ${replace_phrases.output}
+    query_type: Hybrid + semantic
+    top_k: 10
+  use_variants: false
+- name: generate_prompt_context
+  type: python
+  source:
+    type: code
+    path: generate_prompt_context.py
+  inputs:
+    search_result: ${lookup.output}
+  use_variants: false
+- name: chat_with_context
+  type: llm
+  source:
+    type: code
+    path: chat_with_context.jinja2
+  inputs:
+    deployment_name: gpt-4o-mini
+    temperature: 0
+    top_p: 1
+    max_tokens: 10000
+    presence_penalty: 0
+    frequency_penalty: 0
+    chat_history: ${inputs.chat_history}
+    chat_input: ${replace_phrases.output}
+    contexts: ${generate_prompt_context.output}
+    date_time: ${get_current_date_and_time.output}
+  provider: AzureOpenAI
+  connection: ai-aitaschub186483217280_aoai
+  api: chat
+  module: promptflow.tools.aoai
+  use_variants: false
+node_variants: {}
+environment:
+  python_requirements_txt: requirements.txt

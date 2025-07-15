@@ -1,0 +1,55 @@
+{
+  "orientation": "Vertical",
+  "nodeLayouts": {
+    "inputs": {
+      "x": 182.5,
+      "y": 62,
+      "index": -1
+    },
+    "outputs": {
+      "x": 279.48337244468274,
+      "y": 642.6543696840089,
+      "index": -1
+    },
+    "replace_phrases": {
+      "x": 67,
+      "y": 172,
+      "height": 75,
+      "index": 0
+    },
+    "get_current_date_and_time": {
+      "x": 293.5,
+      "y": 282,
+      "height": 75,
+      "index": 1
+    },
+    "lookup": {
+      "x": 12,
+      "y": 282,
+      "height": 75,
+      "index": 2
+    },
+    "generate_prompt_context": {
+      "x": 12,
+      "y": 392,
+      "height": 75,
+      "index": 3
+    },
+    "chat_with_context": {
+      "x": 177,
+      "y": 502,
+      "height": 75,
+      "index": 4
+    }
+  },
+  "viewport": {
+    "transformMatrix": [
+      0.6050962025318675,
+      0,
+      0,
+      0.6050962025318675,
+      131.70170079111216,
+      294.11118101256295
+    ]
+  }
+}

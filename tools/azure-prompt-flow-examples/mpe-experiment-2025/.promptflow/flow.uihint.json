@@ -1,0 +1,62 @@
+{
+  "nodes": {
+    "replace_phrases": {
+      "variant_0": {
+        "inputs": {},
+        "inputsValue": {}
+      }
+    },
+    "get_current_date_and_time": {
+      "variant_0": {
+        "inputs": {},
+        "inputsValue": {}
+      }
+    },
+    "lookup": {
+      "variant_0": {
+        "inputs": {
+          "acs_index_name": [
+            {
+              "display_value": "5c01-index-9apr2025",
+              "value": "5c01-index-9apr2025"
+            }
+          ],
+          "embedding_model": [],
+          "mlindex_asset_id": [],
+          "pinecone_index_connection": [],
+          "pinecone_index_name": [],
+          "query_type": [
+            {
+              "display_value": "Hybrid + semantic",
+              "value": "Hybrid + semantic"
+            }
+          ]
+        },
+        "inputsValue": {
+          "index_type": "Azure AI Search",
+          "acs_index_connection": "aitanesearchservice",
+          "acs_content_field": "content",
+          "acs_embedding_field": "contentVector",
+          "acs_index_name": "5c01-index-9apr2025",
+          "acs_metadata_field": "meta_json_string",
+          "embedding_type": "Azure OpenAI",
+          "aoai_embedding_connection": "ai-aitaschub186483217280_aoai",
+          "embedding_deployment": "text-embedding-ada-002",
+          "semantic_configuration": "azureml-default"
+        }
+      }
+    },
+    "generate_prompt_context": {
+      "variant_0": {
+        "inputs": {},
+        "inputsValue": {}
+      }
+    },
+    "chat_with_context": {
+      "variant_0": {
+        "inputs": {},
+        "inputsValue": {}
+      }
+    }
+  }
+}
