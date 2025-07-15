@@ -2,9 +2,8 @@
 This repository is in progress. 
 
 To Do: 
-1. Containerize for easier deployment
-2. Add YAML files from Microsoft Azure Prompt Flow
-3. Write detailed deployment instructions
+- Write detailed deployment instructions
+- Containerize
 
 ## Third Party Licenses
 
