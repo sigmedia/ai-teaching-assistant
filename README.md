@@ -13,16 +13,23 @@ Reference Article: [https://techcommunity.microsoft.com/blog/educatordeveloperbl
 - Go to [Azure AI Foundry](https://ai.azure.com/)
 - Follow the steps in the Reference Article to create an Azure AI Search resourse, Azure AI Hub, Project, Model Deployments and a Prompt Flow (starting from the Multi-Round Q&A on Your Data template)
 - Modify the Prompt Flow as needed (see the YAML files of our customized Prompt Flow as an example here: [Prompt Flow for MPE Experiment 2025](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools/azure-prompt-flow-examples/mpe-experiment-2025))
-- Deploy and test the Prompt Flow as a as described in Steps 8 and 9 of the Reference Article
+- Deploy and test the Prompt Flow as described in Steps 8 and 9 of the Reference Article
 
 Notes:
-- If you are using this Prompt Flow in production, consider whether to keep "Inferencing data collection" Enabled or Disabled from a data projection standpoint. Enabling it means that query and response data will be collected in Azure, may be retained for a period after the endpoint deployent is deleted, and may be used for training Azure's content safety filters)
+- If you change the default inputs to and/or outputs of your Prompt Flow, it may not continue to work with the AI Teaching Assistant application in the [app](https://github.com/sigmedia/ai-teaching-assistant/tree/main/app) folder of this repository
+- When deploying your Prompt Flow, if you keep "Inferencing data collection" Enabled, this will store the inputs to and outputs from your Prompt Flow (including query and response text) in an Azure blob storage container in your Azure AI Foundry Project. You may want to consider whether this is appropirate and/or configure the data retention policy of the storage container depending on your specific data protection requirements.
 
 ### Step 2: Create a Database
 
+Coming soon. 
+
 ### Step 3: Clone this Repository and Test App Locally
 
+Coming soon. 
+
 ### Step 4: Deploy the App Online
+
+Coming soon. 
 
 ## Third Party Licenses
 
