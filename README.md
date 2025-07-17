@@ -8,12 +8,11 @@ Coming soon.
 
 ### Step 1: Create and Deploy an Azure Prompt Flow
 
-Reference Article: 
-[https://techcommunity.microsoft.com/blog/educatordeveloperblog/create-your-own-copilot-using-azure-prompt-flow-and-streamlit/4137426](https://techcommunity.microsoft.com/blog/educatordeveloperblog/create-your-own-copilot-using-azure-prompt-flow-and-streamlit/4137426)
+Reference Article: [Create your own copilot using Azure Prompt flow and Streamlit](https://techcommunity.microsoft.com/blog/educatordeveloperblog/create-your-own-copilot-using-azure-prompt-flow-and-streamlit/4137426)
 
 - Go to [Azure AI Foundry](https://ai.azure.com/)
-- Follow the steps in the Reference Article to create an Azure AI Search resourse, Azure AI Hub, Project, Model Deployments and a Prompt Flow (starting from the Multi-Round Q&A on Your Data template)
-- Modify the Prompt Flow as needed (see the YAML files of our customized Prompt Flow as an example here: [Prompt Flow for MPE Experiment 2025](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools/azure-prompt-flow-examples/mpe-experiment-2025))
+- Follow the steps in the Reference Article to create an Azure AI Search resource, Azure AI Foundry Hub, Project, Model Deployments and a Prompt Flow (starting from the "Multi-Round Q&A on Your Data" template)
+- Modify the Prompt Flow as needed for your use case (see the YAML files of our customized Prompt Flow as an example here: [Prompt Flow for MPE Experiment 2025](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools/azure-prompt-flow-examples/mpe-experiment-2025))
 - Deploy and test the Prompt Flow as described in Steps 8 and 9 of the Reference Article
 
 Notes:
@@ -34,7 +33,7 @@ Notes:
 ### Step 3: Clone this Repository and Test App Locally
 
 - Clone this repository
-- Naviage to the [tools](https://github.com/sigmedia/ai-teaching-assistant/tree/main/app) folder
+- Naviage to the [tools](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools) folder
 
 More coming soon.
 
