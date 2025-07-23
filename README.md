@@ -32,9 +32,10 @@ Notes:
 - If you chose to give your Azure SQL Server "Public network access" (i.e. the default setting), it will be protected with Firewall rules. You will need to add your local client's IP address to these to be able to run the app locally. This can be done via Security > Networking > Firewall rules > "+ Add your client IPv4 address" and then Save.
 - You may want to consider changing the default database collation to support specific international languages
 
-### Step 3: Clone this Repository Locally
+### Step 3: Fork and Clone this Repository Locally
 
-- Clone this repository on your local machine.
+- Fork this repository in GitHub, and navigate to your fork
+- Clone the fork to your local machine
 
 ### Step 4: Prepare a Hashed Password for Logging in to the App Locally
 
@@ -77,9 +78,17 @@ Notes:
 - Go to http://127.0.0.1:8000 in your browser
 - Log in to the app, and test it by chatting with the AI-TA. You should see a new session and new message entries appearing in the tables of your test/development database when you refresh it.
 
-### Step 7: Deploy the App in Production Online
+### Step 7: Deploy the App as a Web App Online
 
-Coming soon.
+- Fork this repository if you haven't already
+- Go to [Azure Portal](https://portal.azure.com/)
+- Create a new Web App
+- In the new Web App wizard, Choose  "Code" for the Publish setting and "Python 3.10" for Runtime Environment
+- Under Deployment, set Continuous Deployment to "Enable". Then, under GitHub Settings link your GitHub account, choose your Organization, set Repository to your fork, and set Branch to "main"
+- Click "Review & Create" and then "Create" to finish creating your Web App
+- When the Web App is ready, click "Go to resource" to access its settings
+
+More coming soon. 
 
 ## Third Party Licenses
 
