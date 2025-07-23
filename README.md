@@ -80,6 +80,8 @@ Notes:
 
 ### Step 7: Deploy the App as a Web App Online
 
+- If you want to use a separate Prompt Flow for production, copy the one you created in Step 1, deploy it as a new endpoint, and take note of its Endpoint and Key (see Reference Article)
+- If you want to use a separate database for production, create a new SQL Database, and take note of it's ODBC SQL Authentication Connection String (like in Step 2 above)
 - Fork this repository if you haven't already
 - Go to [Azure Portal](https://portal.azure.com/)
 - Create a new Web App
@@ -87,8 +89,33 @@ Notes:
 - Under Deployment, set Continuous Deployment to "Enable". Then, under GitHub Settings link your GitHub account, choose your Organization, set Repository to your fork, and set Branch to "main"
 - Click "Review & Create" and then "Create" to finish creating your Web App
 - When the Web App is ready, click "Go to resource" to access its settings
+- Navigate to Settings > Environment Variables > App settings, and add/edit the following Environment variables:
+  
+| Envronment Variable      | What It Does                                                                                                                                                                           | Some Example Value(s)         |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
+| ENVIRONMENT              | Set to **prod** for production. Prod forces HTTPS transmission of session data and should be set for production environments.                                                          | prod                          |
+| AZURE                    | Including this tells the app that it's operating in the Azure environment (and hence not to load environment variables using dotenv). Doesn't need to have a value.                    |                               |
+| BOT_NAME                 | Name of your AI Teaching Assistant (AI-TA). Displayed in various places in the app (e.g. on the login page and in the app header)                                                      | MPE AI-TA                     |
+| COURSE_NAME              | Name of the course supported by your AI Teaching Assistant. Displayed in various places in the app (e.g. on the login page).                                                           | Motion Picture Engineering    |
+| GLOBAL_USERNAME          | Universal username for logging into the app online. Choose it yourself.                                                                                                                | MPE_student                   |  
+| GLOBAL_PASSWORD          | Universal password for logging into the app online, hashed using bcrypt. Hash your production password using the same technique as per Step 4, although it's advised to choose a different password for production versus development/testing | |
+| AGREEMENT_PART_1_VERSION | A place to store the name and version of the document/clause that your users will agree to in User Agreement Part 1 on the login page                                                  | PIL.pdf version 2.1           |  
+| AGREEMENT_PART_1_VERSION | A place to store the name and version of the document/clause that your users will agree to in User Agreement Part 2 on the login page=                                                 | Data_Protection_Policy.pdf v3 |
+| MIDDLEWARE_SECRET        | Secret key that keeps the anonymous session cookie from being tampered with. Generate this using a cryptographically secure random generator according to security best practises.     |                               |      
+| CHAT_API_ENDPOINT        | Put your production Prompt Flow deployment's endpoint URL here (i.e. the Endpoint you took note of earlier)                                                                            |                               |  
+| CHAT_API_KEY             | Put your production Prompt Flow deployment's key here (i.e. the Key you took note of earlier)                                                                                          |                               |
+| DB_CONN_STR              | Put your production database's ODBC SQL Authentication Connection String here (i.e. what you took note of earlier)                                                                     |                               |  
+| MAX_INTERACTIONS_HISTORY | Determines how many of the (most recent) query/response pairs from the current session that will be remembered by the AI-TA as conversation history                                    | 10                            |
+| MAX_INACTIVE_TIME_MINS   | Determines how long (in minutes) the AI-TA can be left without activity before the session is deemed inactive                                                                          | 240                           |  
+| SCHEDULER_FREQ_MINS      | Determines the run frequency (in minutes) of an automated job that formally marks sessions older than MAX_INACTIVE_TIME_MINS as inactive (and a new session will be created if the user logs into the AI-TA again) |120|  
+| SCM_DO_BUILD_DURING_DEPLOYMENT | Leave this equal to 1 if you want the app's build process to run during deployment                                                                                               | 1                             |
+| WEBSITE_HTTPLOGGING_RETENTION_DAYS | Determines the number of days that app logs will be retained for. There is nothing sensitive in this app's logs. There is info that may be useful for debugging production issues | 7                        |
+| WEBSITES_CONTAINER_START_TIME_LIMIT | Number of seconds before the Web App will stop the container startup process. Increase this if the app isn't starting up quickly enough.                                    | 600                           |
 
-More coming soon. 
+- Navigate to Overview
+- Restart the Web App
+- After it has restarted, click on "Default Domain"
+- Log in to the app, and test it by chatting with the AI-TA. You should see a new session and new message entries appearing in the tables of your production database when you refresh it.
 
 ## Third Party Licenses
 
