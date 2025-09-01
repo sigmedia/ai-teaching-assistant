@@ -17,7 +17,7 @@ Reference Article: [Create your own copilot using Azure Prompt flow and Streamli
 - Note your deployment's Endpoint and Key (e.g. you may find this by navigating to My Assets > Models & Endpoints, then find your deployment and click "Get Endpoint")
 
 Notes:
-- If you change the default inputs to and/or outputs of your Prompt Flow, it may not continue to work with the AI Teaching Assistant application in the [app](https://github.com/sigmedia/ai-teaching-assistant/tree/main/app) folder of this repository
+- If you change the default inputs to and/or outputs of your Prompt Flow, it may not continue to work with the AI Teaching Assistant web application (which is in the [app](https://github.com/sigmedia/ai-teaching-assistant/tree/main/app) folder of this repository)
 - When deploying your Prompt Flow, if you keep "Inferencing data collection" Enabled, this will store the inputs to and outputs from your Prompt Flow (including query and response text) in an Azure blob storage container in your Azure AI Foundry Project. You may want to consider whether this is appropirate and/or configure the data retention policy of the storage container depending on your specific data protection requirements.
 
 ### Step 2: Create a Database Server and Database for Local Testing/Development
