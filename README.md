@@ -39,7 +39,7 @@ Notes:
 
 ### Step 4: Prepare a Hashed Password for Logging in to the App Locally
 
-- Navigate to the [tools/app-setup](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools/app-setup) folder locally
+- Navigate to the [tools/app-setup](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools/app-setup) folder locally
 - Create a new virtual environment and activate it (optional, but recommended)
 - Install the packages in requirements.txt (e.g. pip install -r requirements.txt)
 - Run prep_password.py with your desired password as the only command line argument (e.g. python3 prep_password.py MyGr8Passw0rd!)
@@ -47,7 +47,7 @@ Notes:
 
 ### Step 5: Set Up Environment Variables for Local Testing
 
-- Navigate to the [tools/environment-variables-reference](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools/envinronment-variables-reference) folder locally
+- Navigate to the [tools/environment-variables-reference](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools/envinronment-variables-reference) folder locally
 - Copy the [reference.env](https://github.com/sigmedia/ai-teaching-assistant/blob/main/tools/environment-variables-reference/reference.env) file to the root of the [app](https://github.com/sigmedia/ai-teaching-assistant/tree/main/app) folder locally
 - Change the name from reference.env to .env
 - Open the .env file and add values for all environment variables. Here is a guide to what they all are:
