@@ -84,11 +84,19 @@ Notes:
 - If you want to use a separate database for production, create a new SQL Database, and take note of it's ODBC SQL Authentication Connection String (like in Step 2 above)
 - Fork this repository if you haven't already
 - Go to [Azure Portal](https://portal.azure.com/)
-- Create a new Web App
-- In the new Web App wizard, Choose  "Code" for the Publish setting and "Python 3.10" for Runtime Environment
-- Under Deployment, set Continuous Deployment to "Enable". Then, under GitHub Settings link your GitHub account, choose your Organization, set Repository to your fork, and set Branch to "main"
-- Click "Review & Create" and then "Create" to finish creating your Web App
-- When the Web App is ready, click "Go to resource" to access its settings
+- Create a new Web App. This is a multi-step process.
+- In the "Basics" step, choose "Code" for the Publish setting and "Python 3.10" for Runtime Environment
+- Skip the "Database" step
+- In the "Deployment" step, set Continuous Deployment to "Enable". Then, under GitHub Settings link your GitHub account, choose your Organization, set Repository to your fork, and set Branch to "main".
+- Skip the rest by clicking "Review & Create" and then "Create" to finish creating the Web App. This deployment will likely fail, since Azure's default GitHub workflow expects the app's entry point to be at the root of the GitHub repo. The following steps will fix this.
+- Navigate to the [.github/workflows](https://github.com/sigmedia/ai-teaching-assistant/tree/851c65bcf23b77c118b842f0a5c19e0aa4f193ad/.github/workflows) folder locally
+- Open up the latest created github workflow for editing (it will be called something like main_yourwebappname.yml)
+- Make the same edits to the the file as per this commit: https://github.com/sigmedia/ai-teaching-assistant/commit/f92a6afb10f2dc6c1a5aaf4a09eef9c32ab0a9a7
+- Commit and push the changes
+- Go to [Azure Portal](https://portal.azure.com/)
+- Open up your Web App
+- Navigate to Deployment > Deployment Center > Settings and click "Sync".
+- Wait for the Web App to be re-deployed. It should finish with Success status.
 - Navigate to Settings > Environment Variables > App settings, and add/edit the following Environment variables:
   
 | Envronment Variable      | What It Does                                                                                                                                                                           | Some Example Value(s)         |
@@ -112,10 +120,15 @@ Notes:
 | WEBSITE_HTTPLOGGING_RETENTION_DAYS | Determines the number of days that app logs will be retained for. There is nothing sensitive in this app's logs. There is info that may be useful for debugging production issues | 7                        |
 | WEBSITES_CONTAINER_START_TIME_LIMIT | Number of seconds before the Web App will stop the container startup process. Increase this if the app isn't starting up quickly enough.                                    | 600                           |
 
-- Navigate to Overview
-- Restart the Web App
+- On Save, accept the option to restart the Web App
+- Navigate to Settings > Configuration > General Settings
+- Add the following to the "Startup Command" field: gunicorn -c gunicorn.conf.py --bind 0.0.0.0:8000 main:app
+- On Save, accept the option to restart the Web App
 - After it has restarted, click on "Default Domain"
 - Log in to the app, and test it by chatting with the AI-TA. You should see a new session and new message entries appearing in the tables of your production database when you refresh it.
+
+  Note:
+- You can restart the Web App at any time by going to Overview and clicking "Restart"
 
 ## Third Party Licenses
 
