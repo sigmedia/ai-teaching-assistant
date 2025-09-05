@@ -127,7 +127,7 @@ Notes:
 - After it has restarted, click on "Default Domain"
 - Log in to the app, and test it by chatting with the AI-TA. You should see a new session and new message entries appearing in the tables of your production database when you refresh it.
 
-  Note:
+Note:
 - You can restart the Web App at any time by going to Overview and clicking "Restart"
 
 ## Third Party Licenses
