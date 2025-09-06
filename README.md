@@ -41,8 +41,8 @@ Notes:
 
 - Navigate to the [tools/app-setup](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools/app-setup) folder locally
 - Create a new virtual environment and activate it (optional, but recommended)
-- Install the packages in requirements.txt (e.g. pip install -r requirements.txt)
-- Run prep_password.py with your desired password as the only command line argument (e.g. python3 prep_password.py MyGr8Passw0rd!)
+- Install the packages in requirements.txt (e.g. `pip install -r requirements.txt`)
+- Run prep_password.py with your desired password as the only command line argument (e.g. `python3 prep_password.py MyGr8Passw0rd!`)
 - Take note of the command line output (this is your password hashed)
 
 ### Step 5: Set Up Environment Variables for Local Testing
@@ -73,8 +73,8 @@ Notes:
 
 - Navigate to the [app](https://github.com/sigmedia/ai-teaching-assistant/tree/main/app) folder locally
 - Create a new virtual environment and activate it (optional, but recommended)
-- Install the packages in requirements.txt (e.g. pip install -r requirements.txt)
-- Start the app with the following command: uvicorn main:app --reload --host 127.0.0.1 --port 8000
+- Install the packages in requirements.txt (e.g. `pip install -r requirements.txt`)
+- Start the app with the following command: `uvicorn main:app --reload --host 127.0.0.1 --port 8000`
 - Go to http://127.0.0.1:8000 in your browser
 - Log in to the app, and test it by chatting with the AI-TA. You should see a new session and new message entries appearing in the tables of your test/development database when you refresh it.
 
@@ -88,15 +88,14 @@ Notes:
 - In the "Basics" step, choose "Code" for the Publish setting and "Python 3.10" for Runtime Environment
 - Skip the "Database" step
 - In the "Deployment" step, set Continuous Deployment to "Enable". Then, under GitHub Settings link your GitHub account, choose your Organization, set Repository to your fork, and set Branch to "main".
-- Skip the rest by clicking "Review & Create" and then "Create" to finish creating the Web App. This deployment will likely fail, since Azure's default GitHub workflow expects the app's entry point to be at the root of the GitHub repo. The following steps will fix this.
-- Navigate to the [.github/workflows](https://github.com/sigmedia/ai-teaching-assistant/tree/851c65bcf23b77c118b842f0a5c19e0aa4f193ad/.github/workflows) folder locally
-- Open up the latest created github workflow for editing (it will be called something like main_yourwebappname.yml)
-- Make the same edits to the the file as per this commit: https://github.com/sigmedia/ai-teaching-assistant/commit/f92a6afb10f2dc6c1a5aaf4a09eef9c32ab0a9a7
-- Commit and push the changes
+- Skip the rest by clicking "Review & Create" and then "Create" to finish creating the Web App. This deployment will likely fail, since Azure's default GitHub workflow expects the app's entry point to be at the root of the GitHub repo. The following few steps will fix this.
+- Navigate to the [.github/workflows](https://github.com/sigmedia/ai-teaching-assistant/tree/851c65bcf23b77c118b842f0a5c19e0aa4f193ad/.github/workflows) folder locally. You will see that a file has been automatically created. It will be called something like main_yourwebappname.yml. This is the github workflow configuration.
+- Open this file locally for editing
+- Edit the file, making the same changes as the first three changes in this commit: [https://github.com/sigmedia/ai-teaching-assistant/commit/f92a6afb10f2dc6c1a5aaf4a09eef9c32ab0a9a7](https://github.com/sigmedia/ai-teaching-assistant/commit/3851a01bb762a0b7ac6ecac658180ceeebd0b357)
+- Commit and push these changes
 - Go to [Azure Portal](https://portal.azure.com/)
 - Open up your Web App
-- Navigate to Deployment > Deployment Center > Settings and click "Sync".
-- Wait for the Web App to be re-deployed. It should finish with Success status.
+- Navigate to Deployment > Deployment Center > Logs. You should see the Web App being automatically re-deployed. Once it's finished, the result should be Success.
 - Navigate to Settings > Environment Variables > App settings, and add/edit the following Environment variables:
   
 | Envronment Variable      | What It Does                                                                                                                                                                           | Some Example Value(s)         |
@@ -120,15 +119,16 @@ Notes:
 | WEBSITE_HTTPLOGGING_RETENTION_DAYS | Determines the number of days that app logs will be retained for. There is nothing sensitive in this app's logs. There is info that may be useful for debugging production issues | 7                        |
 | WEBSITES_CONTAINER_START_TIME_LIMIT | Number of seconds before the Web App will stop the container startup process. Increase this if the app isn't starting up quickly enough.                                    | 600                           |
 
-- On Save, accept the option to restart the Web App
+- On Save, confirm to restart the Web App
 - Navigate to Settings > Configuration > General Settings
-- Add the following to the "Startup Command" field: gunicorn -c gunicorn.conf.py --bind 0.0.0.0:8000 main:app
-- On Save, accept the option to restart the Web App
+- Add the following to the "Startup Command" field: `gunicorn -c gunicorn.conf.py --bind 0.0.0.0:8000 main:app`
+- On Save, confirm to restart the Web App
 - After it has restarted, click on "Default Domain"
 - Log in to the app, and test it by chatting with the AI-TA. You should see a new session and new message entries appearing in the tables of your production database when you refresh it.
 
 Note:
-- You can restart the Web App at any time by going to Overview and clicking "Restart"
+- If you need to manually re-start your Web App at any point, you do so by navigating to Overview and clicking "Restart"
+- You can manually trigger re-deployment of your Web App's code by navigating to Deployment Center > Settings and clicking "Sync"
 
 ## Third Party Licenses
 
