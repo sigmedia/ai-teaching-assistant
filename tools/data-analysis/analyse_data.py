@@ -20,6 +20,7 @@ openai_endpoint = os.getenv("AZURE_OPENAI_API_ENDPOINT")
 openai_api_key = os.getenv("AZURE_OPENAI_API_KEY")
 openai_api_version = os.getenv("AZURE_OPENAI_API_VERSION")
 llm_deployment_name = os.getenv("AZURE_OPENAI_LLM_DEPLOYMENT")
+embedding_deployment_name = os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT")
 
 openai_headers = {
     "Content-Type": "application/json",
@@ -27,6 +28,7 @@ openai_headers = {
 }
 
 completion_url = f"{openai_endpoint}/openai/deployments/{llm_deployment_name}/chat/completions?api-version={openai_api_version}"
+embedding_url = f"{openai_endpoint}/openai/deployments/{embedding_deployment_name}/embeddings?api-version={openai_api_version}"
 
 def get_prompt(prompt_template):
     
@@ -292,16 +294,106 @@ def label_clusters_with_llm(input_path, output_path, max_samples_per_cluster=200
     
     return clusters_df
 
+def add_embeddings_to_data(input_path, checkpoint_path, output_path, batch_size=10, batch_delay=10):
+    
+    # Read in the messages
+    data_df = pd.read_csv(input_path, header=0, usecols=['Id', 'SessionID', 'IsBot', 'MessageText', 'DateCreated_Message'])
+
+    print(f"\nAdding embeddings to data.")
+
+    message_texts = data_df.MessageText
+    embeddings = []
+
+    # Track progress and save periodically
+    checkpoint_interval = 50
+    failed_indices = []
+    
+    for i, text in enumerate(message_texts):
+        # Handle empty messages
+        input_text = text.strip() if isinstance(text, str) else ""
+        if not input_text:
+            input_text = "empty message"
+        
+        payload = {
+            "input": input_text,
+            "encoding_format": "float"
+        }
+        
+        # Retry logic with exponential backoff
+        max_retries = 5
+        retry_delay = 2
+        success = False
+        
+        for attempt in range(max_retries):
+            try:
+                response = requests.post(embedding_url, headers=openai_headers, json=payload)
+                
+                # Check for rate limit (status code 429)
+                if response.status_code == 429:
+                    retry_after = int(response.headers.get("retry-after", retry_delay))
+                    print(f"Rate limit hit for message {i+1}, waiting for {retry_after} seconds (attempt {attempt+1}/{max_retries})")
+                    time.sleep(retry_after)
+                    continue
+                
+                response.raise_for_status()
+                
+                result = response.json()
+                if "data" in result and len(result["data"]) > 0:
+                    vector = result["data"][0]["embedding"]
+                    embeddings.append(vector)
+                    success = True
+                    break
+                else:
+                    print(f"No embedding data for message {i+1} (attempt {attempt+1}/{max_retries})")
+                    time.sleep(retry_delay)
+                    retry_delay *= 2  # Exponential backoff
+            
+            except Exception as e:
+                print(f"Error for message {i+1}: {str(e)} (attempt {attempt+1}/{max_retries})")
+                time.sleep(retry_delay)
+                retry_delay *= 2  # Exponential backoff
+        
+        if not success:
+            print(f"Failed after {max_retries} attempts for message {i+1}")
+            embeddings.append(None)
+            failed_indices.append(i)
+        
+        # Add a dynamic delay between requests based on batch position
+        if (i+1) % batch_size == 0:
+            delay = batch_delay  # Delay between batches
+            print(f"Progress: Processed message {i+1}")
+            time.sleep(delay)
+            
+        # Periodically save progress
+        if (i+1) % checkpoint_interval == 0 or i == len(message_texts) - 1:
+            # Create a temporary dataframe with processed data so far
+            temp_df = data_df.iloc[:i+1].copy()
+            # Add embeddings we have so far, padding with None for the rest
+            temp_embeddings = embeddings + [None] * (len(temp_df) - len(embeddings))
+            temp_df['embedding_vector_json'] = [json.dumps(vec) if vec is not None else None for vec in temp_embeddings]
+            # Save checkpoint
+            temp_df.to_csv(checkpoint_path, index=False)
+            print(f"Saved checkpoint at message {i+1}")
+    
+    data_df = data_df.copy()
+    data_df['embedding_vector_json'] = [json.dumps(vec) if vec is not None else None for vec in embeddings]
+    data_df.to_csv(output_path, index=False)
+    
+    print(f"Completed: {len(embeddings)} total, {len(failed_indices)} failed")
+
 def main():
 
-    data = "files/test_data_with_embeddings.csv"
+    data = "files/test_data.csv"
+    data_checkpoint = "files/test_data_checkpoint.csv"
+    data_embeddings = "files/test_data_with_embeddings.csv"
     data_clusters = "files/test_data_with_clusters.csv"
-    data_clusters_labels = "files/test_data_with_clusters_and_labels.csv"
+    data_labeled_clusters = "files/test_data_with_labeled_clusters.csv"
     visualization = "files/test_visualization.html"
 
-    perform_clustering(data, data_clusters, n_clusters=42)
-    label_clusters_with_llm(data_clusters, data_clusters_labels, 100)
-    create_topic_visualization(data_clusters_labels, visualization)
+    add_embeddings_to_data(data, data_checkpoint, data_embeddings, 10, 10)
+    perform_clustering(data_embeddings, data_clusters, 42)
+    label_clusters_with_llm(data_clusters, data_labeled_clusters, 100
+    create_topic_visualization(data_labeled_clusters, visualization)
 
 if __name__ == "__main__":
     main()

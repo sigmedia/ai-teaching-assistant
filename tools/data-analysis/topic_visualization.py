@@ -90,7 +90,7 @@ def create_topic_visualization(input_path, output_path):
             lambda x: topic_labels.get(x, f'Cluster {x}')
         )
         
-        # Create ordered categories for the legend (by size) - now guaranteed unique
+        # Create unique ordered categories for the legend (by size)
         ordered_categories = [topic_labels.get(c, f'Cluster {c}') for c in clusters_by_size]
         
         # Verify categories are unique before creating categorical
@@ -170,7 +170,8 @@ def create_topic_visualization(input_path, output_path):
                 y=0.99,
                 xanchor="left",
                 x=0.99,
-                traceorder='normal'
+                traceorder='normal',
+                font=dict(size=14)
             ),
             scene=dict(
                 xaxis_title='t-SNE Dimension 1',
@@ -207,7 +208,7 @@ def create_topic_visualization(input_path, output_path):
             trace.update(
                 hoverlabel=dict(
                     bgcolor="white",
-                    font=dict(color="black", size=15),
+                    font=dict(color="black", size=14),
                     bordercolor=trace.marker.color
                 )
             )
