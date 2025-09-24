@@ -2,7 +2,11 @@
 
 ## About
 
-Coming soon. 
+A custom, responsive web client for deploying an online AI Teaching Assistant that leverages Microsoft Azure services including Azure AI Foundry, Prompt Flow and Azure SQL Database.  
+
+## Compliance Note
+
+This software was developed for research purposes. If you choose to use, modify, or distribute this software, you are solely responsible for ensuring compliance with all applicable laws and regulations in your jurisdiction, including but not limited to data protection, privacy, and security requirements (such as GDPR, ePrivacy Directive, CCPA, HIPAA, etc). Please conduct appropriate due diligence before using it with sensitive data or in production environments. Feel free to get in touch with any questions you may have about the code.
 
 ## Deployment Instructions
 
