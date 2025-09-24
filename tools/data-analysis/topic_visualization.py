@@ -70,16 +70,16 @@ def create_topic_visualization(input_path, output_path):
     y_min, y_max = viz_data['tsne_2'].min(), viz_data['tsne_2'].max()
     z_min, z_max = viz_data['tsne_3'].min(), viz_data['tsne_3'].max()
 
-    # Add 10% padding to each axis
+    # Add 5% padding to each axis
     x_range = x_max - x_min
     y_range = y_max - y_min
     z_range = z_max - z_min
-    x_min -= 0.05 * x_range
-    x_max += 0.05 * x_range
-    y_min -= 0.05 * y_range
-    y_max += 0.05 * y_range
-    z_min -= 0.05 * z_range
-    z_max += 0.05 * z_range
+    x_min -= 0.025 * x_range
+    x_max += 0.025 * x_range
+    y_min -= 0.025 * y_range
+    y_max += 0.025 * y_range
+    z_min -= 0.025 * z_range
+    z_max += 0.025 * z_range
     
     # Create interactive Plotly 3D visualization
     try:

@@ -392,7 +392,7 @@ def main():
 
     add_embeddings_to_data(data, data_checkpoint, data_embeddings, 10, 10)
     perform_clustering(data_embeddings, data_clusters, 42)
-    label_clusters_with_llm(data_clusters, data_labeled_clusters, 100
+    label_clusters_with_llm(data_clusters, data_labeled_clusters, 100)
     create_topic_visualization(data_labeled_clusters, visualization)
 
 if __name__ == "__main__":
