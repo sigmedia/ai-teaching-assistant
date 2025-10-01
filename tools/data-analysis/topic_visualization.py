@@ -118,7 +118,7 @@ def create_topic_visualization(input_path, output_path):
         
         # Create a truncated message preview for hover data
         viz_data['message_preview'] = viz_data['MessageText'].apply(
-            lambda text: text[:300] + "..." if len(text) > 300 else text
+            lambda text: text[:200] + "..." if len(text) > 200 else text
         )
         
         # Create a formatted date string for hover information with Dublin timezone
@@ -191,12 +191,12 @@ def create_topic_visualization(input_path, output_path):
         # Custom hover styling
         fig.update_traces(
             marker=dict(
-                size=6,              
+                size=5,              
                 line=dict(width=0) # No outline around points
             ),
             hovertemplate =
                 '<b>Topic:</b> %{customdata[0]}<br>' +
-                '<b>Preview:</b> %{customdata[1]}<br>' +
+                '<b>Preview Message:</b> %{customdata[1]}<br>' +
                 '<b>Date:</b> %{customdata[2]}<br>' +
                 '<b>Cluster ID:</b> %{customdata[3]}<br>' +
                 '<b>Session ID:</b> %{customdata[4]}<br>' +
