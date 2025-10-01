@@ -137,4 +137,4 @@ Note:
 ## Third Party Licenses
 
 This project uses KaTeX which is licensed under the MIT License. 
-See [KATEX-LICENSE.txt](licenses/KATEX-LICENSE.txt) for details.
+See [app/licenses/KATEX-LICENSE.txt](app/licenses/KATEX-LICENSE.txt) for details. 
