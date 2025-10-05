@@ -102,7 +102,7 @@ async def expire_session(session: Session, db: AsyncSession):
         await db.rollback()
         return False
 
-async def save_message(session_id: str, is_bot: bool, message: str, analogy: str, example: str, diagram: str, db: AsyncSession):
+async def save_message(session_id: str, is_bot: bool, message: str, db: AsyncSession):
 
     try:
         # Save message

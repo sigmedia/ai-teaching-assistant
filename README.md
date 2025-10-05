@@ -4,9 +4,25 @@
 
 A custom, responsive web client for deploying an online AI Teaching Assistant that leverages Microsoft Azure services including Azure AI Foundry, Prompt Flow and Azure SQL Database.  
 
-## Compliance Note
+## License
+This project is licensed under GPLv3. See LICENSE for details.
 
-This software was developed for research purposes. If you choose to use, modify, or distribute this software, you are solely responsible for ensuring compliance with all applicable laws and regulations in your jurisdiction, including but not limited to data protection, privacy, and security requirements (such as GDPR, ePrivacy Directive, CCPA, HIPAA, etc). Please conduct appropriate due diligence before using it with sensitive data or in production environments. Feel free to get in touch with any questions you may have about the code.
+## About This Project
+This software was developed at Trinity College Dublin for educational research purposes.
+
+## Cookie Usage
+This application uses an anonymous session cookie for functionality.
+
+## Important Notice for Deployers
+This software is provided "as is" under GPLv3. If you deploy this application, you are responsible for compliance with applicable data protection and privacy laws in your jurisdiction, including:
+
+- Providing appropriate privacy policies
+- Obtaining necessary user consents
+- Complying with GDPR, ePrivacy Directive, CCPA, HIPAA, or other relevant regulations
+
+Please conduct appropriate due diligence before deploying it.
+
+The original developers and institution are not liable for how you deploy or use this software.
 
 ## Deployment Instructions
 
@@ -51,7 +67,7 @@ Notes:
 
 ### Step 5: Set Up Environment Variables for Local Testing
 
-- Navigate to the [tools/environment-variables-reference](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools/envinronment-variables-reference) folder locally
+- Navigate to the [tools/environment-variables-reference](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools/environment-variables-reference) folder locally
 - Copy the [reference.env](https://github.com/sigmedia/ai-teaching-assistant/blob/main/tools/environment-variables-reference/reference.env) file to the root of the [app](https://github.com/sigmedia/ai-teaching-assistant/tree/main/app) folder locally
 - Change the name from reference.env to .env
 - Open the .env file and add values for all environment variables. Here is a guide to what they all are:

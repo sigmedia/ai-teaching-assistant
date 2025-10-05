@@ -223,23 +223,19 @@ async def send_message(request: Request, response: Response, db: AsyncSession = 
     except Exception as e:
         error_text = f"Chat input unknown exception in session {session_id}. Error message: {str(e)}"
         logger.error(error_text, event_type="aita")
-    
-    analogy = form_data.get("analogy")
-    example = form_data.get("example")
-    diagram = form_data.get("diagram")
 
     # Get chat history before saving user message
     chat_history = await format_message_history(session_id, db)
 
     # Save user message
-    await save_message(session_id, False, user_message, analogy, example, diagram, db)
+    await save_message(session_id, False, user_message, db)
 
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {settings.CHAT_API_KEY}"
     }
 
-    data = {"chat_input": user_message, "analogy": analogy, "example": example, "diagram": diagram, "chat_history": chat_history}
+    data = {"chat_input": user_message, "chat_history": chat_history}
     bot_message = ""
 
     try:
@@ -256,7 +252,7 @@ async def send_message(request: Request, response: Response, db: AsyncSession = 
             bot_message = result["chat_output"]
 
             # Save bot message before processing markdown to HTML
-            await save_message(session_id, True, bot_message, analogy, example, diagram, db)
+            await save_message(session_id, True, bot_message, db)
             bot_message_html = await convert_markdown(bot_message)
 
     except Exception as e:
@@ -271,7 +267,7 @@ async def send_message(request: Request, response: Response, db: AsyncSession = 
             bot_message = "Apologies, but I'm not available right now. Please try again later."
     
         # Save bot message
-        await save_message(session_id, True, bot_message, analogy, example, diagram, db)
+        await save_message(session_id, True, bot_message, db)
         bot_message_html = "<p>"+bot_message+"</p>"
 
     return JSONResponse(
