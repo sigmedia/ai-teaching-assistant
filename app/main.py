@@ -8,7 +8,6 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 from contextlib import asynccontextmanager
-import scrubadub
 from markdown_it import MarkdownIt
 import re
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -232,8 +231,7 @@ async def send_message(request: Request, response: Response, db: AsyncSession = 
     # Get chat history before saving user message
     chat_history = await format_message_history(session_id, db)
 
-    # Clean and save user message
-    user_message = scrubadub.clean(user_message)
+    # Save user message
     await save_message(session_id, False, user_message, analogy, example, diagram, db)
 
     headers = {
