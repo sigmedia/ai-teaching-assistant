@@ -1,0 +1,100 @@
+THIRD_PARTY_LICENSES.txt
+========================
+
+Project: AI Teaching Assistant
+License: GNU General Public License v3.0 (GPLv3)
+Copyright (c) 2025, Sigmedia and contributors
+
+This file lists third-party software components and open-source packages used by this project, along with their respective licenses and attributions.
+
+Unless otherwise noted, these components are used under licenses that are compatible with the GNU GPLv3. Full license texts can be found at their respective repositories or PyPI pages.
+
+
+1. MIT License
+--------------
+The following components are licensed under the MIT License, which permits use, modification, and redistribution with attribution:
+
+APScheduler, Faker, annotated-types, anyio, appdirs, attrs, catalogue, cattrs, exceptiongroup, fastapi, fhconfparser, filelock, greenlet, gunicorn, h11, loguru, markdown-it-py, mdurl, platformdirs, pydantic, pydantic_core, pytz, rich, six, textblob, tqdm (partially, also MPL 2.0), tzlocal, virtualenv, url-normalize, SQLAlchemy, propcache (dual Apache/MIT), structlog (dual Apache/MIT), uv (dual Apache/MIT)
+
+KaTeX (JavaScript math rendering library by Khan Academy)
+
+
+2. BSD License (2-Clause / 3-Clause)
+------------------------------------
+These packages are provided under a BSD-style license (permissive, GPL-compatible):
+
+Jinja2, MarkupSafe, Pygments, boolean.py, dateparser, idna, itsdangerous, joblib, numpy, python-dotenv, requests-cache, scikit-learn, scipy, starlette, threadpoolctl, uvicorn
+
+
+3. Apache License 2.0
+---------------------
+The following are licensed under the Apache License, Version 2.0:
+
+aiohttp, aioodbc, aiosignal, async-timeout, bcrypt, frozenlist, license-expression, multidict, nltk, packaging, phonenumbers, propcache, python-dateutil (dual Apache/BSD), python-multipart, regex, requests, requirements-parser, structlog, sniffio, tzdata, uv, yarl
+
+The Apache License 2.0 is GPLv3-compatible under the terms defined by the Free Software Foundation.
+
+
+4. Mozilla Public License 2.0 (MPL 2.0)
+---------------------------------------
+certifi
+tqdm (partially dual-licensed under MIT/MPL 2.0)
+
+These libraries are used in a way that maintains the MPL’s file-level copyleft requirements. MPL 2.0 is compatible with GPLv3 when distributed as part of a combined work under GPLv3.
+
+
+5. Python Software Foundation License
+-------------------------------------
+aiohappyeyeballs
+distlib
+
+The PSF License is GPL-compatible.
+
+
+6. The Unlicense (Public Domain)
+--------------------------------
+filelock
+
+The Unlicense dedicates the work to the public domain and is fully GPL-compatible.
+
+
+7. MIT-0 (MIT No Attribution)
+-----------------------------
+pyodbc
+
+MIT-0 is a public domain equivalent; fully compatible with GPLv3.
+
+
+8. Unknown or Unspecified Licenses
+----------------------------------
+Some dependencies did not declare an explicit license in the package metadata:
+
+Markdown, click, licensecheck, typing-inspection, typing_extensions, urllib3
+
+These are well-known open-source projects that are generally licensed under permissive terms (most under BSD, MIT, or Apache 2.0). Users are encouraged to verify the license directly from the project’s repository if stricter compliance is required.
+
+
+9. Optional / External Components
+---------------------------------
+This repository includes an example configuration for Azure Prompt Flow.
+This configuration references an external dependency that is not bundled with the project:
+
+  promptflow_vectordb[azure]
+  Author: Microsoft Corporation
+  License: MIT License
+  Source: https://pypi.org/project/promptflow-vectordb/
+  Purpose: Demonstrates integration with Azure AI Prompt Flow services.
+
+This dependency is used only in example YAML and test configurations, not in the distributed codebase. Users installing or deploying this dependency are bound by Microsoft’s MIT License terms.
+
+
+10. Compatibility Statement
+---------------------------
+All distributed and required dependencies are under licenses that are compatible with the GNU GPLv3. Optional integrations and examples (e.g., Azure Prompt Flow) are isolated and do not affect the project’s licensing terms.
+
+For full details on GPLv3 compatibility, see:
+https://www.gnu.org/licenses/license-list.html
+
+
+Generated: October 2025
+Maintainer: Sigmedia (https://github.com/sigmedia/ai-teaching-assistant)

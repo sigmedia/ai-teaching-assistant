@@ -152,5 +152,10 @@ Note:
 
 ## Third Party Licenses
 
-This project uses KaTeX which is licensed under the MIT License. 
-See [app/licenses/KATEX-LICENSE.txt](app/licenses/KATEX-LICENSE.txt) for details. 
+This project includes third-party components distributed under open-source licenses.  
+See [THIRD_PARTY_LICENSES.txt](./THIRD_PARTY_LICENSES.txt) for a full list.
+
+The project also bundles **KaTeX** (by Khan Academy) for mathematical typesetting,  
+licensed under the MIT License.  
+See [licenses/KATEX-LICENSE.txt](./licenses/KATEX-LICENSE.txt) for details.
+
