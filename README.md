@@ -91,7 +91,7 @@ Notes:
 
 ### Step 6: Run and Test the App Locally
 
-- Navigate to the [app](https://github.com/sigmedia/ai-teaching-assistant/tree/main/app) folder locally
+- Navigate to the [app](https://github.com/sigmedia/ai-teaching-assistant/tree/main/app) folder locally 
 - Create a new virtual environment and activate it (optional, but recommended)
 - Install the packages in requirements.txt (e.g. `pip install -r requirements.txt`)
 - You may need to install [Microsoft ODBC Driver 18 for SQL Server](https://learn.microsoft.com/en-us/sql/connect/odbc/microsoft-odbc-driver-for-sql-server?view=sql-server-ver17) locally if you don't already have it installed. The process for this will vary depending on your local operating system. 
@@ -110,7 +110,7 @@ Notes:
 - Skip the "Database" step
 - In the "Deployment" step, set Continuous Deployment to "Enable". Then, under GitHub Settings link your GitHub account, choose your Organization, set Repository to your fork, and set Branch to "main".
 - Skip the rest by clicking "Review & Create" and then "Create" to finish creating the Web App. This deployment will likely fail, since Azure's default GitHub workflow expects the app's entry point to be at the root of the GitHub repo. The following few steps will fix this.
-- Navigate to the [.github/workflows](https://github.com/sigmedia/ai-teaching-assistant/tree/851c65bcf23b77c118b842f0a5c19e0aa4f193ad/.github/workflows) folder locally. You will see that a file has been automatically created. It will be called something like main_yourwebappname.yml. This is the github workflow configuration.
+- Navigate to the [.github/workflows](https://github.com/sigmedia/ai-teaching-assistant/tree/851c65bcf23b77c118b842f0a5c19e0aa4f193ad/.github/workflows) folder locally and do a `git pull`. You will see that a new file has been automatically created by github. It will be called something like main_yourwebappname.yml. This is the github workflow configuration.
 - Open this file locally for editing
 - Edit the file, making the same changes as the first three changes in this commit: [https://github.com/sigmedia/ai-teaching-assistant/commit/f92a6afb10f2dc6c1a5aaf4a09eef9c32ab0a9a7](https://github.com/sigmedia/ai-teaching-assistant/commit/3851a01bb762a0b7ac6ecac658180ceeebd0b357)
 - Commit and push these changes
