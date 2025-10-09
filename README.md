@@ -94,6 +94,7 @@ Notes:
 - Navigate to the [app](https://github.com/sigmedia/ai-teaching-assistant/tree/main/app) folder locally
 - Create a new virtual environment and activate it (optional, but recommended)
 - Install the packages in requirements.txt (e.g. `pip install -r requirements.txt`)
+- You may need to install [Microsoft ODBC Driver 18 for SQL Server](https://learn.microsoft.com/en-us/sql/connect/odbc/microsoft-odbc-driver-for-sql-server?view=sql-server-ver17) locally if you don't already have it installed. The process for this will vary depending on your local operating system. 
 - Start the app with the following command: `uvicorn main:app --reload --host 127.0.0.1 --port 8000`
 - Go to http://127.0.0.1:8000 in your browser
 - Log in to the app, and test it by chatting with the AI-TA. You should see a new session and new message entries appearing in the tables of your test/development database when you refresh it.
@@ -155,7 +156,6 @@ Note:
 This project includes third-party components distributed under open-source licenses.  
 See [THIRD_PARTY_LICENSES.txt](./THIRD_PARTY_LICENSES.txt) for a full list.
 
-The project also bundles **KaTeX** (by Khan Academy) for mathematical typesetting,  
-licensed under the MIT License.  
+The project also bundles **KaTeX** (by Khan Academy) for mathematical typesetting, licensed under the MIT License.  
 See [licenses/KATEX-LICENSE.txt](./licenses/KATEX-LICENSE.txt) for details.
 
