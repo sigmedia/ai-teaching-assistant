@@ -103,14 +103,16 @@ Notes:
 
 - If you want to use a separate Prompt Flow for production, copy the one you created in Step 1, deploy it as a new endpoint, and take note of its Endpoint and Key (see Reference Article)
 - If you want to use a separate database for production, create a new SQL Database, and take note of it's ODBC SQL Authentication Connection String (like in Step 2 above)
-- Fork this repository if you haven't already
+- Fork this repository on if you haven't already, and clone the fork locally
 - Go to [Azure Portal](https://portal.azure.com/)
 - Create a new Web App. This is a multi-step process.
 - In the "Basics" step, choose "Code" for the Publish setting and "Python 3.10" for Runtime Environment
 - Skip the "Database" step
 - In the "Deployment" step, set Continuous Deployment to "Enable". Then, under GitHub Settings link your GitHub account, choose your Organization, set Repository to your fork, and set Branch to "main".
 - Skip the rest by clicking "Review & Create" and then "Create" to finish creating the Web App. This deployment will likely fail, since Azure's default GitHub workflow expects the app's entry point to be at the root of the GitHub repo. The following few steps will fix this.
-- Navigate to the [.github/workflows](https://github.com/sigmedia/ai-teaching-assistant/tree/851c65bcf23b77c118b842f0a5c19e0aa4f193ad/.github/workflows) folder locally and do a `git pull`. You will see that a new file has been automatically created by github. It will be called something like main_yourwebappname.yml. This is the github workflow configuration.
+- If you're using [GitHub](https://github.com), go to your forked repository there and navigate to its Actions tab. You will see a warning that starts with "Workflows aren’t being run on this forked repository. Because this repository contained workflow files when it was forked, we have disabled them from running on this fork..." This is happening because there are some .yaml files in the [Prompt Flow for MPE Experiment 2025](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools/azure-prompt-flow-examples/mpe-experiment-2025)) folder. To fix this, click the green button that says "I understand my workflows, go ahead and enable them"
+- Go back to [Azure Portal](https://portal.azure.com/), open up your Web App, navigate to Deployment > Deployment Center and click the "Sync" button.
+- Go back to your local repository and do a `git pull`. You will see that a new file has been automatically been created in the folder [.github/workflows](https://github.com/sigmedia/ai-teaching-assistant/tree/851c65bcf23b77c118b842f0a5c19e0aa4f193ad/.github/workflows) at the root of the cloned repository. This file will be called something like main_yourwebappname.yml. This is the github workflow configuration.
 - Open this file locally for editing
 - Edit the file, making the same changes as the first three changes in this commit: [https://github.com/sigmedia/ai-teaching-assistant/commit/f92a6afb10f2dc6c1a5aaf4a09eef9c32ab0a9a7](https://github.com/sigmedia/ai-teaching-assistant/commit/3851a01bb762a0b7ac6ecac658180ceeebd0b357)
 - Commit and push these changes
