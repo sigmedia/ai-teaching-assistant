@@ -19,6 +19,9 @@ from datetime import datetime
 import time
 import traceback
 
+# Version information
+__version__ = "1.0.0"
+
 # Set variables
 AC_TIMEOUT = aiohttp.ClientTimeout(
     total=45,

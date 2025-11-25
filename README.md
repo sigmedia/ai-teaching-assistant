@@ -2,7 +2,11 @@
 
 ## About
 
-A custom, responsive web application for deploying an online AI Teaching Assistant that leverages Microsoft Azure services including Azure AI Foundry, Prompt Flow and Azure SQL Database.  
+A custom, responsive web application for deploying an online AI Teaching Assistant (AI-TA) that leverages Microsoft Azure services including Azure AI Foundry, Prompt Flow and Azure SQL Database.  
+
+This software was developed at Trinity College Dublin for educational research purposes.
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 ## Motion Picture Engineering (MPE) Deployment 2025
 
@@ -10,7 +14,11 @@ A custom, responsive web application for deploying an online AI Teaching Assista
 - Prompt: [tools/azure-prompt-flow-examples/mpe-experiment-2025/chat_with_context.jinja2](https://github.com/sigmedia/ai-teaching-assistant/blob/4e1c4f6935a680b7c7c2de8d09521f560c4b7be5/tools/azure-prompt-flow-examples/mpe-experiment-2025/chat_with_context.jinja2)
 - Course exit survey questions & data: [tools/evaluation/exit-survey/mpe-experiment-2025](https://github.com/sigmedia/ai-teaching-assistant/tree/4e1c4f6935a680b7c7c2de8d09521f560c4b7be5/tools/evaluation/exit-survey/mpe-experiment-2025)
 
-#### MPE AI-TA Specifications ####
+#### AI-TA Specifications ####
+
+- Release version (this repository): v1.0.0 
+
+Azure service specifications & deployment regions:
 
 - Azure AI Hub & Project: Sweden Central
 - Azure OpenAI Models: gpt-4o-mini & text-embedding-ada-002, Sweden Central 
@@ -21,9 +29,6 @@ A custom, responsive web application for deploying an online AI Teaching Assista
 
 ## License
 This project is licensed under GPLv3. See LICENSE for details.
-
-## About This Project
-This software was developed at Trinity College Dublin for educational research purposes.
 
 ## Cookie Usage
 This application uses an anonymous session cookie for functionality.
