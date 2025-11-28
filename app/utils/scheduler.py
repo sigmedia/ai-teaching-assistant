@@ -1,6 +1,6 @@
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from utils.logger import logger
-import fcntl
+from filelock import FileLock, Timeout
 import os
 import atexit
 import traceback
@@ -8,7 +8,7 @@ import traceback
 class SchedulerManager:
     _instance = None
     _initialized = False
-    _lock_file_handle = None
+    _lock = None
 
     def __new__(cls):
         if cls._instance is None:
@@ -21,7 +21,6 @@ class SchedulerManager:
             logger.info("Initializing SchedulerManager")
             self.scheduler = AsyncIOScheduler()
             SchedulerManager._initialized = True
-            atexit.register(self.cleanup)
             logger.info("SchedulerManager initialized successfully")
 
     @property
@@ -70,33 +69,29 @@ class SchedulerManager:
             logger.info(f"Ensured directory exists: {os.path.dirname(instance.lock_file_path)}")
             
             # Try to open and lock the file
-            cls._lock_file_handle = open(instance.lock_file_path, 'w')
-            logger.info("Lock file opened successfully")
-            
-            # Try to acquire an exclusive lock without blocking
-            fcntl.flock(cls._lock_file_handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            cls._lock = FileLock(instance.lock_file_path, timeout=0)
+            cls._lock.acquire()
             logger.info("Lock acquired successfully")
             
-            # Write PID to file
-            cls._lock_file_handle.seek(0)
-            cls._lock_file_handle.write(str(os.getpid()))
-            cls._lock_file_handle.truncate()
-            cls._lock_file_handle.flush()
+            # Write PID to a separate file (FileLock manages its own .lock file)
+            pid_file = instance.lock_file_path + ".pid"
+            with open(pid_file, 'w') as f:
+                f.write(str(os.getpid()))
             
             logger.info(f"Scheduler lock acquired. PID: {os.getpid()}")
             return True
             
+        except Timeout:
+            logger.info("Could not acquire lock - another process holds it")
+            cls._lock = None
+            return False
         except Exception as e:
             logger.error("=== Scheduler Start Error ===")
             logger.error(f"Error type: {type(e).__name__}")
             logger.error(f"Error message: {str(e)}")
             logger.error("Traceback:")
             logger.error(traceback.format_exc())
-            
-            if cls._lock_file_handle:
-                logger.info("Cleaning up lock file handle...")
-                cls._lock_file_handle.close()
-                cls._lock_file_handle = None
+            cls._lock = None
             return False
 
     @classmethod
@@ -104,13 +99,18 @@ class SchedulerManager:
         instance = cls()
         logger.info("Starting scheduler cleanup")
         try:
-            if cls._lock_file_handle:
-                fcntl.flock(cls._lock_file_handle.fileno(), fcntl.LOCK_UN)
-                cls._lock_file_handle.close()
-                cls._lock_file_handle = None
+            if cls._lock:
+                cls._lock.release()
+                cls._lock = None
                 
+                # Clean up lock file
                 if os.path.exists(instance.lock_file_path):
                     os.remove(instance.lock_file_path)
+                
+                # Clean up PID file
+                pid_file = instance.lock_file_path + ".pid"
+                if os.path.exists(pid_file):
+                    os.remove(pid_file)
                     
                 logger.info("Scheduler lock released and file cleaned up")
         except Exception as e:
