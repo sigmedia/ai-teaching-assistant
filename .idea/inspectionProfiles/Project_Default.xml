@@ -1,0 +1,20 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="vllm" />
+          <option value="paper-qa" />
+          <option value="faiss-cpu" />
+          <option value="sentence-transformers" />
+          <option value="pypdf" />
+          <option value="fastapi" />
+          <option value="uvicorn" />
+          <option value="httpx" />
+          <option value="python-dotenv" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
