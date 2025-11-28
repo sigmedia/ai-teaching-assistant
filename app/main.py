@@ -20,7 +20,7 @@ import time
 import traceback
 
 # Version information
-__version__ = "1.0.0"
+__version__ = "1.0.1-dev"
 
 # Set variables
 AC_TIMEOUT = aiohttp.ClientTimeout(
@@ -103,11 +103,14 @@ async def lifespan(app: FastAPI):
             logger.error(f"Error closing client session: {str(e)}")
         
         try:
-            if scheduler.running:
+            scheduler = getattr(app.state, 'scheduler', None)
+            if scheduler and scheduler.running:
                 scheduler.shutdown()
                 logger.info("Scheduler shutdown complete")
         except Exception as e:
             logger.error(f"Error shutting down scheduler: {str(e)}")
+        
+        SchedulerManager.cleanup()
         
         total_shutdown_time = time.time() - shutdown_start
         logger.info(f"=== Application Shutdown Complete in {total_shutdown_time:.2f} seconds ===")
