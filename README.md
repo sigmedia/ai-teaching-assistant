@@ -16,7 +16,7 @@ See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 #### AI-TA Specifications ####
 
-- Release version (this repository): v1.0.0 
+- Web application release version: [v1.0.0](https://github.com/sigmedia/ai-teaching-assistant/releases/tag/v1.0.0)
 
 Azure service specifications & deployment regions:
 
