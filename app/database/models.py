@@ -33,6 +33,7 @@ class Message(Base):
     Id = Column(Integer, primary_key=True, autoincrement=True)
     SessionID = Column(String(64), ForeignKey('sessions.SessionID'), nullable=False)
     IsBot = Column(Boolean(1), nullable=False)
+    ModifiedInputText = Column(UnicodeText(), nullable=True)
     MessageText = Column(UnicodeText(), nullable=True)
     DateCreated = Column(DateTime(timezone=True), server_default=func.GETUTCDATE(), nullable=False)
     session = relationship("Session", back_populates="messages")
