@@ -5,13 +5,7 @@
 > Note: Always test migrations on a backup or staging environment first. Backup your data before running migrations on your production database.
 
 ### Breaking Changes
-- New column added to messages database table
-
-**Migration:**
-```sql
-ALTER TABLE messages
-ADD ModifiedInputText NVARCHAR(MAX) NULL;
-```
+- New `ModifiedInputText` column required in messages table (see New Features)
 
 ### New Features
 - Application runs on Windows OS
@@ -27,6 +21,14 @@ ALTER COLUMN AgreementPart2Version NVARCHAR(64) NOT NULL;
 
 ALTER TABLE messages
 ALTER COLUMN MessageText NVARCHAR(MAX) NULL;
+```
+
+- **Modified query capture** *(breaking)*: New `ModifiedInputText` column captures the modified user query (on the same row as its corresponding response message) when the Prompt Flow outputs a `modified_chat_input` field. Useful for tracking pre-processing changes to user queries.
+
+**Migration:**
+```sql
+ALTER TABLE messages
+ADD ModifiedInputText NVARCHAR(MAX) NULL;
 ```
 
 ### Improvements
