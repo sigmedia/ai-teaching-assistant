@@ -102,11 +102,11 @@ async def expire_session(session: Session, db: AsyncSession):
         await db.rollback()
         return False
 
-async def save_message(session_id: str, is_bot: bool, message: str, db: AsyncSession):
+async def save_message(session_id: str, is_bot: bool, message: str, modified_input: str, db: AsyncSession):
 
     try:
         # Save message
-        new_message = Message(SessionID=session_id, IsBot=is_bot, MessageText=message)
+        new_message = Message(SessionID=session_id, IsBot=is_bot, MessageText=message, ModifiedInputText=modified_input)
         db.add(new_message)
         await db.commit()
         logger.info(f"Message saved in session {session_id}, bot {is_bot}", event_type="aita") 

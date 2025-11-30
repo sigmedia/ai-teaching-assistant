@@ -20,7 +20,7 @@ import time
 import traceback
 
 # Version information
-__version__ = "1.0.0"
+__version__ = "2.0.0"
 
 # Set variables
 AC_TIMEOUT = aiohttp.ClientTimeout(
@@ -103,11 +103,14 @@ async def lifespan(app: FastAPI):
             logger.error(f"Error closing client session: {str(e)}")
         
         try:
-            if scheduler.running:
+            scheduler = getattr(app.state, 'scheduler', None)
+            if scheduler and scheduler.running:
                 scheduler.shutdown()
                 logger.info("Scheduler shutdown complete")
         except Exception as e:
             logger.error(f"Error shutting down scheduler: {str(e)}")
+        
+        SchedulerManager.cleanup()
         
         total_shutdown_time = time.time() - shutdown_start
         logger.info(f"=== Application Shutdown Complete in {total_shutdown_time:.2f} seconds ===")
@@ -208,6 +211,7 @@ async def home(request: Request, db: AsyncSession = Depends(get_db)):
 
 @app.post("/send")
 async def send_message(request: Request, response: Response, db: AsyncSession = Depends(get_db)):
+    
     session = await get_session(request.session, db)
     if not session:
         return RedirectResponse(url="/login", status_code=303)
@@ -231,7 +235,7 @@ async def send_message(request: Request, response: Response, db: AsyncSession = 
     chat_history = await format_message_history(session_id, db)
 
     # Save user message
-    await save_message(session_id, False, user_message, db)
+    await save_message(session_id, False, user_message, "", db)
 
     headers = {
         "Content-Type": "application/json",
@@ -244,23 +248,36 @@ async def send_message(request: Request, response: Response, db: AsyncSession = 
     try:
         async with app.state.client_session.post(
             settings.CHAT_API_ENDPOINT, json=data, headers=headers
-        ) as response:
+        ) as api_response:
 
             # Get bot response
-            result_bytes = await response.read()
+            result_bytes = await api_response.read()
             result_text = result_bytes.decode('utf-8')
-            result = json.loads(result_text)  # Parse JSON
+
+            if api_response.status != 200:
+                raise Exception(f"API returned status {api_response.status}: {result_text}")
+
+            if not result_text.strip():
+                raise Exception("API returned empty response")
+
+            result = json.loads(result_text)
 
             # Get bot message
             bot_message = result["chat_output"]
 
+            # Get modified chat input (may be different to the user's actual chat input after some pre-processing steps)
+            modified_chat_input = ""
+            if "modified_chat_input" in result:
+                modified_chat_input = result["modified_chat_input"]
+
             # Save bot message before processing markdown to HTML
-            await save_message(session_id, True, bot_message, db)
+            await save_message(session_id, True, bot_message, modified_chat_input, db)
             bot_message_html = await convert_markdown(bot_message)
 
     except Exception as e:
+        error_message = str(e)
 
-        if 'content_filter' in result['error']['message']:
+        if 'content_filter' in  error_message:
             error_text = f"Chat request failed. Content filter error."
             logger.error(error_text, event_type="aita")
             bot_message = "Apologies, but something in the content of your message seems unsafe to me. Can you clarify or provide additional details?"
@@ -270,7 +287,7 @@ async def send_message(request: Request, response: Response, db: AsyncSession = 
             bot_message = "Apologies, but I'm not available right now. Please try again later."
     
         # Save bot message
-        await save_message(session_id, True, bot_message, db)
+        await save_message(session_id, True, bot_message, "", db)
         bot_message_html = "<p>"+bot_message+"</p>"
 
     return JSONResponse(
