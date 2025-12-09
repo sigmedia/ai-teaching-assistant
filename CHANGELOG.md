@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.1 - 2025-12-09
+
+### Fixed
+- Added missing `filelock` dependency to requirements.txt
+
 ## 2.0.0 - 2025-11-30
 
 > Note: Always test migrations on a backup or staging environment first. Backup your data before running migrations on your production database.
