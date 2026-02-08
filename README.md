@@ -13,19 +13,27 @@ See [CHANGELOG.md](CHANGELOG.md) for release history.
 - Prompt Flow: [tools/azure-prompt-flow-examples/mpe-experiment-2025](https://github.com/sigmedia/ai-teaching-assistant/tree/4e1c4f6935a680b7c7c2de8d09521f560c4b7be5/tools/azure-prompt-flow-examples/mpe-experiment-2025)
 - Prompt: [tools/azure-prompt-flow-examples/mpe-experiment-2025/chat_with_context.jinja2](https://github.com/sigmedia/ai-teaching-assistant/blob/4e1c4f6935a680b7c7c2de8d09521f560c4b7be5/tools/azure-prompt-flow-examples/mpe-experiment-2025/chat_with_context.jinja2)
 - Course exit survey questions & data: [tools/evaluation/exit-survey/mpe-experiment-2025](https://github.com/sigmedia/ai-teaching-assistant/tree/4e1c4f6935a680b7c7c2de8d09521f560c4b7be5/tools/evaluation/exit-survey/mpe-experiment-2025)
+- Student usage and performance data: [tools/evaluation/other-data/mpe-experiment-2025](https://github.com/sigmedia/ai-teaching-assistant/tree/main/tools/evaluation/other-data/mpe-experiment-2025)
 
-#### AI-TA Specifications ####
-
-- Web application release version: [v1.0.0](https://github.com/sigmedia/ai-teaching-assistant/releases/tag/v1.0.0)
+#### AI-TA Deployment Specifications ####
 
 Azure service specifications & deployment regions:
-
 - Azure AI Hub & Project: Sweden Central
 - Azure OpenAI Models: gpt-4o-mini & text-embedding-ada-002, Sweden Central 
 - Azure AI Search: Basic, North Europe
 - Azure Virtual Machine: Standard_E8s_v3 (likely over-provisioned), Sweden Central
 - Azure SQL Database: Standard S0 (10 DTUs), North Europe
 - Azure Web App Plan: B3, North Europe
+
+Web application release version: 
+- [v1.0.0](https://github.com/sigmedia/ai-teaching-assistant/releases/tag/v1.0.0)
+
+Key environment variable settings:
+- MAX_INACTIVE_TIME_MINS=720
+- MAX_INTERACTIONS_HISTORY=10
+- SCHEDULER_FREQ_MINS=180
+- WEBSITE_HTTPLOGGING_RETENTION_DAYS=7
+- WEBSITES_CONTAINER_START_TIME_LIMIT=600
 
 ## License
 This project is licensed under GPLv3. See LICENSE for details.
