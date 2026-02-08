@@ -25,9 +25,8 @@ __version__ = "2.0.2-dev"
 
 # Set variables
 AC_TIMEOUT = aiohttp.ClientTimeout(
-    total=45,
+    total=int(settings.REQUEST_TIMEOUT_SECS),
     connect=5,
-    sock_read=35,
     sock_connect=5
 )
 
