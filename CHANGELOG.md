@@ -8,8 +8,8 @@
 
 ### New Features
 - Added new environment varaible `REQUEST_TIMEOUT_SECS`, enabling control over how long the web app will wait before assuming a query has timed out and responding with a placeholder apology
-- Included further supplementary material and reproducibility instructions pertaining to MPE Deployment 2025. See tools/evaluation/other-data/mpe-experiment-2025.
-- Updated README.md to with deployment instructions adjusted to work with recent changes to Azure's Web App github workflow, as well as information about the new environment variable, how to configure the Azure Web App so it doesn't idle out on inactivity, and the additional supplementariy materials.
+- Included further supplementary material and reproducibility instructions pertaining to MPE Deployment 2025. See [tools/evaluation/other-data/mpe-experiment-2025](tools/evaluation/other-data/mpe-experiment-2025).
+- Updated [README.md](README.md) to with deployment instructions adjusted to work with recent changes to Azure's Web App github workflow, as well as information about the new environment variable, how to configure the Azure Web App so it doesn't idle out on inactivity, and the additional supplementariy materials.
 
 ## 2.0.1 - 2025-12-09
 
