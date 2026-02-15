@@ -10,6 +10,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from contextlib import asynccontextmanager
 from markdown_it import MarkdownIt
 import re
+import uuid
 from sqlalchemy.ext.asyncio import AsyncSession
 from database.db import init_db, get_db, async_session_maker
 from utils.session import create_session, get_session, expire_session, save_message, format_message_history, expire_sessions
@@ -20,13 +21,12 @@ import time
 import traceback
 
 # Version information
-__version__ = "2.0.2-dev"
+__version__ = "3.0.0"
 
 # Set variables
 AC_TIMEOUT = aiohttp.ClientTimeout(
-    total=45,
+    total=int(settings.REQUEST_TIMEOUT_SECS),
     connect=5,
-    sock_read=35,
     sock_connect=5
 )
 
@@ -137,17 +137,85 @@ md.enable([
     'list',
     'table',
     'code',
+    'newline',
     'fence',
     'strikethrough',
     'backticks',
-    'link'
+    'link',
+    'emphasis',
+    'hr'
 ])
 logger.info(f"Markdown parser initialized in {time.time() - md_init_start:.2f} seconds")
 
-async def convert_markdown(text):
-    html=md.render(text)
-    html = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', html)
-    html = re.sub(r'\*(.*?)\*', r'<i>\1</i>', html)
+def protect_math_in_markdown(text):
+    """
+    Temporarily replace math blocks with placeholders, so pipes inside math don't break table parsing.
+    Protects code blocks first so $ signs in code aren't treated as math, then restores code blocks
+    before returning so the markdown parser can still process them.
+    """
+    code_placeholders = {}
+    math_placeholders = {}
+    
+    def store_code(match):
+        key = f"CODE_{uuid.uuid4().hex[:8]}"
+        code_placeholders[key] = match.group(0)
+        return key
+    
+    def store_math(match):
+        key = f"MATH_{uuid.uuid4().hex[:8]}"
+        math_placeholders[key] = match.group(0)
+        return key
+    
+    # Step 1: Protect code blocks from math regex
+    text = re.sub(r'(```[\s\S]*?```)', store_code, text)
+    text = re.sub(r'(`[^`]+?`)', store_code, text)
+    
+    # Step 2: Protect display math (won't match inside code since code is placeholder text)
+    text = re.sub(r'\$\$([\s\S]+?)\$\$', store_math, text)
+    
+    # Protect display math \[...\] (multi-line)
+    text = re.sub(r'\\\[([\s\S]+?)\\\]', store_math, text)
+    
+    # Protect inline math $...$ (but not $$)
+    text = re.sub(r'\$([^$\n]+?)\$', store_math, text)
+    
+    # Protect inline math \(...\)
+    text = re.sub(r'\\\(([\s\S]+?)\\\)', store_math, text)
+    
+    # Step 3: Restore code blocks so markdown can process them normally
+    for key, value in code_placeholders.items():
+        text = text.replace(key, value)
+    
+    return text, math_placeholders
+
+def restore_math(html, placeholders):
+    """
+    Put the math blocks back after markdown processing, wrapped in appropriate HTML tags for KaTeX rendering.
+    """
+    for key, value in placeholders.items():
+        # Display math: $$...$$ or \[...\]
+        if value.startswith('$$'):
+            math_content = value[2:-2].strip()
+            replacement = f'<div class="math block">{math_content}</div>'
+        elif value.startswith('\\['):
+            math_content = value[2:-2].strip()
+            replacement = f'<div class="math block">{math_content}</div>'
+        # Inline math: $...$ or \(...\)
+        elif value.startswith('\\('):
+            math_content = value[2:-2].strip()
+            replacement = f'<span class="math inline">{math_content}</span>'
+        else:
+            # Regular $...$
+            math_content = value[1:-1]
+            replacement = f'<span class="math inline">{math_content}</span>'
+        
+        html = html.replace(key, replacement)
+    return html
+
+def convert_markdown(text):
+    text, math_placeholders = protect_math_in_markdown(text)
+    html = md.render(text)
+    html = restore_math(html, math_placeholders)
     return html
 
 @app.get("/login", response_class=HTMLResponse)
@@ -272,7 +340,7 @@ async def send_message(request: Request, response: Response, db: AsyncSession = 
 
             # Save bot message before processing markdown to HTML
             await save_message(session_id, True, bot_message, modified_chat_input, db)
-            bot_message_html = await convert_markdown(bot_message)
+            bot_message_html = convert_markdown(bot_message)
 
     except Exception as e:
         error_message = str(e)
@@ -322,6 +390,3 @@ app.add_middleware(
     https_only=(settings.ENVIRONMENT=='prod')
 )
 logger.info(f"Middleware added in {time.time() - middleware_init_start:.2f} seconds")
-
-
-

@@ -7,24 +7,25 @@
 <link rel="stylesheet" href="/static/katex/katex.min.css">
 
 <!-- Add KaTeX JS -->
-<script defer src="/static/katex/katex.min.js"></script>
-
-<!-- Add Auto-render Extension -->
-<script defer src="/static/katex/contrib/auto-render.min.js" onload="renderMath()"></script>
+<script src="/static/katex/katex.min.js"></script>
 
 <script>
-    function renderMath() {
-        renderMathInElement(document.body, {
-            delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '$', right: '$', display: false},
-                {left: '\\(', right: '\\)', display: false},
-                {left: '\\[', right: '\\]', display: true},
-                {left: '\\begin{math}', right: '\\end{math}', display: false},
-                {left: '\\begin{displaymath}', right: '\\end{displaymath}', display: true}
-            ],
-            throwOnError: false,
-            output: 'html'
+
+    function renderMath(container) {
+        // Inline math: <span class="math inline">...</span>
+        container.querySelectorAll('span.math.inline').forEach(el => {
+            katex.render(el.textContent, el, { 
+                displayMode: false,
+                throwOnError: false 
+            });
+        });
+        
+        // Display math: <div class="math block">...</div>
+        container.querySelectorAll('div.math.block').forEach(el => {
+            katex.render(el.textContent, el, { 
+                displayMode: true,
+                throwOnError: false 
+            });
         });
     }
 
@@ -89,11 +90,13 @@
 
         startTyping();
 
-        user_message = formData.get("user_message")
+        const user_message = formData.get("user_message")
         appendMessage({ "text": user_message, "sender": "user" })
         
         chatInput.value = "";
         resetHeight();
+
+        let bot_message = "";
 
         try {
             // Send the form data
@@ -104,6 +107,7 @@
 
             if (response.redirected) {
                 window.location.href = response.url;
+                return;
             }
 
             if (response.ok) {
@@ -111,12 +115,12 @@
                 bot_message = data.message;
             } else {
                 console.error('Error:', 'Not available');
-                bot_message = "<p>Apologies, but I'm not available right now. please try again later.</p>"
+                bot_message = "<p>Apologies, but I'm not available right now. Please try again later.</p>";
             }
 
         } catch (error) {
-            console.error('Error:', 'Not available');
-            bot_message = "<p>Apologies, but I'm not available right now. please try again later.</p>"
+            console.error('Error:', error);
+            bot_message = "<p>Apologies, but I'm not available right now. Please try again later.</p>";
         } finally {
             // Append message
             appendMessage({ "text": bot_message, "sender": "bot" });
@@ -132,18 +136,18 @@
     }
 
     function startTyping() {
-        const typing = document.getElementById('loading')
+        const typing = document.getElementById('loading');
         typing.classList.add('active');
     }
 
     function stopTyping() {
-        const typing = document.getElementById('loading')
+        const typing = document.getElementById('loading');
         typing.classList.remove('active');
     }
 
     function appendMessage(message) {
         const messageSender = message.sender;
-        const messageText = JSON.parse(JSON.stringify(message.text));
+        const messageText = message.text;
         const messagesArea = document.getElementById('messages-area');
         const messageWrapper = document.createElement('div');
         messageWrapper.className = `message-wrapper ${messageSender}`;
@@ -169,20 +173,7 @@
         
         // Process code blocks - combined function for copy buttons and SVGs
         processCodeBlocks(messageWrapper);
-        
-        // Replace MathJax.typesetPromise() with KaTeX render
-        renderMathInElement(messageWrapper, {
-            delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '$', right: '$', display: false},
-                {left: '\\(', right: '\\)', display: false},
-                {left: '\\[', right: '\\]', display: true},
-                {left: '\\begin{math}', right: '\\end{math}', display: false},
-                {left: '\\begin{displaymath}', right: '\\end{displaymath}', display: true}
-            ],
-            throwOnError: false,
-            output: 'html'
-        });
+        renderMath(messageWrapper);
     }
 
     function processCodeBlocks(messageWrapper) {
@@ -289,10 +280,11 @@
     font-family: 'KaTeX_Main';
 }
 
-.katex-display {
+.math.block {
     display: block;
-    margin: 1em 0;
     text-align: center;
+    margin: 0;
+    overflow-x: auto;
 }
 
 .chat-container {
@@ -374,6 +366,11 @@ table {
 td, th { /* table cells */
     padding: 4px 8px;
     border: 1px solid #c3c3c3;
+}
+
+hr {
+    margin: 20px 0;
+    border-color: #cccccc !important;
 }
 
 .loading-area {
@@ -533,7 +530,6 @@ button {
 }
 </style>
 {% endblock %}
-</head>
 
 {% block content %}
 
