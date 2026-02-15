@@ -150,15 +150,27 @@ logger.info(f"Markdown parser initialized in {time.time() - md_init_start:.2f} s
 def protect_math_in_markdown(text):
     """
     Temporarily replace math blocks with placeholders, so pipes inside math don't break table parsing.
+    Protects code blocks first so $ signs in code aren't treated as math, then restores code blocks
+    before returning so the markdown parser can still process them.
     """
-    placeholders = {}
+    code_placeholders = {}
+    math_placeholders = {}
+    
+    def store_code(match):
+        key = f"CODE_{uuid.uuid4().hex[:8]}"
+        code_placeholders[key] = match.group(0)
+        return key
     
     def store_math(match):
         key = f"MATH_{uuid.uuid4().hex[:8]}"
-        placeholders[key] = match.group(0)
+        math_placeholders[key] = match.group(0)
         return key
     
-    # Protect display math $$...$$ (multi-line)
+    # Step 1: Protect code blocks from math regex
+    text = re.sub(r'(```[\s\S]*?```)', store_code, text)
+    text = re.sub(r'(`[^`]+?`)', store_code, text)
+    
+    # Step 2: Protect display math (won't match inside code since code is placeholder text)
     text = re.sub(r'\$\$([\s\S]+?)\$\$', store_math, text)
     
     # Protect display math \[...\] (multi-line)
@@ -170,7 +182,11 @@ def protect_math_in_markdown(text):
     # Protect inline math \(...\)
     text = re.sub(r'\\\(([\s\S]+?)\\\)', store_math, text)
     
-    return text, placeholders
+    # Step 3: Restore code blocks so markdown can process them normally
+    for key, value in code_placeholders.items():
+        text = text.replace(key, value)
+    
+    return text, math_placeholders
 
 def restore_math(html, placeholders):
     """
@@ -197,9 +213,9 @@ def restore_math(html, placeholders):
     return html
 
 def convert_markdown(text):
-    text, placeholders = protect_math_in_markdown(text)
+    text, math_placeholders = protect_math_in_markdown(text)
     html = md.render(text)
-    html = restore_math(html, placeholders)
+    html = restore_math(html, math_placeholders)
     return html
 
 @app.get("/login", response_class=HTMLResponse)
@@ -374,4 +390,3 @@ app.add_middleware(
     https_only=(settings.ENVIRONMENT=='prod')
 )
 logger.info(f"Middleware added in {time.time() - middleware_init_start:.2f} seconds")
-
