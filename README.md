@@ -141,9 +141,9 @@ Notes:
 - Skip the rest by clicking "Review & Create" and then "Create" to finish creating the Web App. This deployment will likely fail, since Azure's default GitHub workflow expects the app's entry point to be at the root of the GitHub repo. The following few steps will fix this.
 - If you're using [GitHub](https://github.com), go to your forked repository there and navigate to its Actions tab. You will see a warning that starts with "Workflows aren’t being run on this forked repository. Because this repository contained workflow files when it was forked, we have disabled them from running on this fork..." This is happening because there are some .yaml files in the [Prompt Flow for MPE Experiment 2025](tools/azure-prompt-flow-examples/mpe-experiment-2025) folder. To fix this, click the green button that says "I understand my workflows, go ahead and enable them"
 - Go back to [Azure Portal](https://portal.azure.com/), open up your Web App, navigate to Deployment > Deployment Center and click the "Sync" button.
-- Go back to your local repository and do a `git pull`. You will see that a new file has been automatically been created in the folder [.github/workflows](.github/workflows) at the root of the cloned repository. This file will be called something like main_yourwebappname.yml. This is the github workflow configuration.
+- Go back to your local repository and do a `git pull`. You will see that a new file has been automatically been created in the folder **.github/workflows** at the root of the cloned repository. This file will be called something like "main_yourwebappname.yml". This is the github workflow configuration.
 - Open this file locally for editing
-- Edit the file, making the same changes as the first three changes in this commit: [https://github.com/sigmedia/ai-teaching-assistant/commit/c9303005e54a13e89087091b5d5a7ee148bc56c1](https://github.com/sigmedia/ai-teaching-assistant/commit/c9303005e54a13e89087091b5d5a7ee148bc56c1)
+- Edit the file, making the same **first two** changes as per this commit: [https://github.com/sigmedia/ai-teaching-assistant/commit/c9303005e54a13e89087091b5d5a7ee148bc56c1](https://github.com/sigmedia/ai-teaching-assistant/commit/c9303005e54a13e89087091b5d5a7ee148bc56c1)
 - Commit and push these changes
 - Go to [Azure Portal](https://portal.azure.com/)
 - Open up your Web App
