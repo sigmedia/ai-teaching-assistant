@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.0.1 - 2026-02-15
+
+### Fixed
+
+### New Features
+- Added new envronment varaible `REQUESTS_TIMEOUT_SECS`, enabling control over how long the web app will wait before assuming a query has timed out and responding with a placeholder apology.
+
 ## 2.0.1 - 2025-12-09
 
 ### Fixed

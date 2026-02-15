@@ -21,7 +21,7 @@ import time
 import traceback
 
 # Version information
-__version__ = "2.0.2-dev"
+__version__ = "3.0.0"
 
 # Set variables
 AC_TIMEOUT = aiohttp.ClientTimeout(
