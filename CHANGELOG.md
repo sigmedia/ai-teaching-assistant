@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.0.1 - 2026-02-15
+## 3.0.0 - 2026-02-15
 
 ### Fixed
 - Issue with markdown causing broken code display under specific conditions
