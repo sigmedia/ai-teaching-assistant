@@ -21,7 +21,7 @@ import time
 import traceback
 
 # Version information
-__version__ = "3.0.1-dev"
+__version__ = "3.0.1"
 
 # Set variables
 AC_TIMEOUT = aiohttp.ClientTimeout(
@@ -212,10 +212,24 @@ def restore_math(html, placeholders):
         html = html.replace(key, replacement)
     return html
 
+def sanitize_html(html):
+    """Remove script tags and event handler attributes from HTML output."""
+    # Remove <script>...</script> tags and their contents
+    html = re.sub(r'<script[\s\S]*?</script>', '', html, flags=re.IGNORECASE)
+    # Remove standalone <script> tags (unclosed)
+    html = re.sub(r'<script[^>]*>', '', html, flags=re.IGNORECASE)
+    # Remove event handler attributes (onclick, onerror, onload, etc.)
+    html = re.sub(r'\s+on\w+\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+)', '', html, flags=re.IGNORECASE)
+    # Remove javascript: and data: URL schemes in attributes
+    html = re.sub(r'(href|src|action)\s*=\s*["\']?\s*javascript:', r'\1="', html, flags=re.IGNORECASE)
+    html = re.sub(r'(href|src|action)\s*=\s*["\']?\s*data:', r'\1="', html, flags=re.IGNORECASE)
+    return html
+
 def convert_markdown(text):
     text, math_placeholders = protect_math_in_markdown(text)
     html = md.render(text)
     html = restore_math(html, math_placeholders)
+    html = sanitize_html(html)
     return html
 
 @app.get("/login", response_class=HTMLResponse)
@@ -292,12 +306,14 @@ async def send_message(request: Request, response: Response, db: AsyncSession = 
         await InputValidator.validate_chat_message(user_message)
     except HTTPException as e:
         error_text = f"Chat input failed validation in session {session_id}. Error message: {str(e)}"
-        logger.error(error_text, event_type="aita") 
+        logger.error(error_text, event_type="aita")
         if e.status_code == 403:
             return RedirectResponse(url="/login", status_code=303)
+        return JSONResponse({"status": "success", "message": "<p>It looks like your message was empty or too long. Please try again.</p>"})
     except Exception as e:
         error_text = f"Chat input unknown exception in session {session_id}. Error message: {str(e)}"
         logger.error(error_text, event_type="aita")
+        return JSONResponse({"status": "success", "message": "<p>Something went wrong with your message. Please try again.</p>"})
 
     # Get chat history before saving user message
     chat_history = await format_message_history(session_id, db)

@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.0.1 - 2026-03-09
+
+### Fixed
+- Fixed input validation bug where validated boolean results overwrote original login data values
+- Fixed `validate_chat_message` returning `True` instead of the validated message string
+- Fixed missing `@staticmethod` decorators on `validate_login_data` and `validate_chat_message`
+- Fixed failed chat validation (empty or over-length messages) falling through to the API instead of returning an error to the user
+- Fixed typo in validation error message
+
+### Security
+- Added HTML sanitization of bot output to protect against cross-site scripting (XSS)
+- Added SECURITY.md with vulnerability reporting and deployer responsibility guidelines
+
+### Improvements
+- Updated README.md and SECURITY.md with deployer liability notice and LICENSE links
+
 ## 3.0.0 - 2026-02-15
 
 ### Fixed
