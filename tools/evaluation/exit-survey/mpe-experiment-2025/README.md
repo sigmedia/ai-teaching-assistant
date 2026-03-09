@@ -1,4 +1,4 @@
-# Survey Questions and Anonymized Response Data from MPE 2025
+# Survey Questions and Anonymized Data from MPE 2025
 
 The file in this folder contains the questions and anonymized response data from the course exit survey administered for Motion Picture Engineering (MPE) 2025.
 
