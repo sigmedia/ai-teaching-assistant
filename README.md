@@ -36,21 +36,25 @@ Key environment variable settings used:
 - WEBSITES_CONTAINER_START_TIME_LIMIT=600
 
 ## License
-This project is licensed under GPLv3. See LICENSE for details.
+This project is licensed under GPLv3. See [LICENSE](LICENSE) for details.
 
 ## Cookie Usage
 This application uses an anonymous session cookie for functionality.
 
 ## Important Notice for Deployers
-This software is provided "as is" under GPLv3. If you deploy this application, you are responsible for compliance with applicable data protection and privacy laws in your jurisdiction, including:
+This software is provided "as is" under GPLv3. If you deploy this application, you are solely responsible for:
 
+- Securing your deployment environment
+- Conducting your own security assessments
+- Complying with applicable data protection and privacy laws (e.g. GDPR, ePrivacy Directive, CCPA, HIPAA)
 - Providing appropriate privacy policies
 - Obtaining necessary user consents
-- Complying with GDPR, ePrivacy Directive, CCPA, HIPAA, or other relevant regulations
+- Keeping dependencies up to date
+- Configuring appropriate access controls and network security
 
 Please conduct appropriate due diligence before deploying it.
 
-The original developers and institution are not liable for how you deploy or use this software.
+The original developers and institution are not liable for how you deploy or use this software. See the [LICENSE](LICENSE) file for full terms.
 
 ## Deployment Instructions
 
