@@ -26,7 +26,8 @@ Azure service specifications & deployment regions:
 - Azure Web App Plan: B3, North Europe
 
 Web application release version: 
-- [v1.0.0](https://github.com/sigmedia/ai-teaching-assistant/releases/tag/v1.0.0) <br/>***NB: There have been a number of useful updates and bug fixes since release v1.0.0, therefore we recommend that new deployments use our latest release if possible. See the [CHANGELOG.md](CHANGELOG.md) for more information***.
+- [v1.0.0](https://github.com/sigmedia/ai-teaching-assistant/releases/tag/v1.0.0) 
+<br/>**NB: There have been a number of important updates and bug fixes since release v1.0.0, therefore we strongly recommend that new deployments use our latest release. See the [CHANGELOG.md](CHANGELOG.md) for more information about what has changed since v1.0.0***.
 
 Key environment variable settings used:
 - MAX_INACTIVE_TIME_MINS=720
