@@ -1,5 +1,6 @@
-# Survey Questions and Anonymized Data from MPE 2025
+# Survey Questions and Anonymized Response Data from MPE 2025
 
-The file below contains our survey instrument and anonymized response data from the Motion Picture Engineering (MPE) Deployment 2025. 
+The file in this folder contains the questions and anonymized response data from the course exit survey administered for Motion Picture Engineering (MPE) 2025.
 
-Also available is anonymized MPE 2025 student AI-TA usage and exam performance data. See here for data and replication instructions: [tools/evaluation/other-data/mpe-experiment-2025](tools/evaluation/other-data/mpe-experiment-2025)
+Anonymized usage data from the MPE 2025 AI-TA deployment, and student exam performance data from MPE 2025, is also available here:
+[tools/evaluation/other-data/mpe-experiment-2025](../../other-data/mpe-experiment-2025)
