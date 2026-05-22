@@ -1,8 +1,8 @@
-# Query Topic Analysis Tools and Visualization Demo
+# Query Topic Analysis Tools and Visualization
 
-## Interactive Visual Explorer of MPE Queries 2025
+## Interactive Visual Query Expolorer Demo
 
-Coming Soon...
+[Interactive Visual Explorer of MPE Queries 2025](https://sigmedia.tv/AI-TA-queries-2025/)
 
 ## Query Topic Analysis & Visualization Tools
 
