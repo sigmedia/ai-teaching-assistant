@@ -2,7 +2,7 @@
 
 ## Interactive Visual Query Expolorer Demo
 
-[Interactive Visual Explorer of MPE Queries 2025](https://sigmedia.tv/AI-TA-queries-2025/)
+[Interactive Visual Explorer of MPE Queries 2025](https://sigmedia.tv/aita2025-queries/)
 
 ## Query Topic Analysis & Visualization Tools
 
