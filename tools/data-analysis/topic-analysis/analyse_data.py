@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 import os
+import shutil
 import pandas as pd
 import requests
 import time
@@ -383,17 +384,28 @@ def add_embeddings_to_data(input_path, checkpoint_path, output_path, batch_size=
 
 def main():
 
+    # All inputs and outputs live in files/. It is gitignored (data and
+    # generated HTML can be large), so create it if it isn't there yet.
+    os.makedirs("files", exist_ok=True)
+
+    # The generated HTML loads plotly.js from a js/ folder beside it, so copy
+    # the committed js/ folder into files/ if it isn't there yet.
+    if not os.path.exists("files/js"):
+        shutil.copytree("js", "files/js")
+
     data = "files/test_data.csv"
     data_checkpoint = "files/test_data_checkpoint.csv"
     data_embeddings = "files/test_data_with_embeddings.csv"
     data_clusters = "files/test_data_with_clusters.csv"
     data_labeled_clusters = "files/test_data_with_labeled_clusters.csv"
-    visualization = "files/test_visualization.html"
+    visualization = "files/demo_visualization.html"
+    # Prepended to the visualization's page heading (e.g. a course/year)
+    title_prefix = "Course Name AI-TA YYYY:"
 
     add_embeddings_to_data(data, data_checkpoint, data_embeddings, 10, 10)
     perform_clustering(data_embeddings, data_clusters, 42)
     label_clusters_with_llm(data_clusters, data_labeled_clusters, 100)
-    create_topic_visualization(data_labeled_clusters, visualization)
+    create_topic_visualization(data_labeled_clusters, visualization, title_prefix)
 
 if __name__ == "__main__":
     main()
