@@ -6,8 +6,10 @@
 
 ## Query Topic Analysis & Visualization Tools
 
-Step 1: Deploy AI models
-Step 2: Drop your file into the [files](files) folder locally
-Step 3: Run [analyse_data.py](analyse_data.py)
-Step 4: Run [topic_visualization.py](topic_visualization.py)
-Step 5: HTML output is in [files](files)
+Steps to use the Topic Analysis tool, assuming necessary AI models are already deployed:
+
+1. Go to the [topic-analysis](topic-analysis) folder locally
+2. Create a local folder named **files** under [topic-analysis](topic-analysis)
+3. Run [topic-analysis/analyse_data.py](topic-analysis/analyse_data.py) to perform the analysis
+4. Run [topic-analysis/topic_visualization.py](topic-analysis/topic_visualization.py) to visualize the analysis in HTML
+5. Intermediate analysis files as well as HTML will output to the **files** folder. NB: The HTML visualization needs access to its sibling JS folder to work.
