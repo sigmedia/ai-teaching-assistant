@@ -2,9 +2,12 @@
 
 ## About
 
-A custom, responsive web application for deploying an online AI Teaching Assistant (AI-TA) that leverages Microsoft Azure services including Azure AI Foundry, Prompt Flow and Azure SQL Database.  
+A custom, responsive web application for deploying an online AI Teaching Assistant (AI-TA) that leverages Microsoft Azure services including Azure AI Foundry, Prompt Flow and Azure SQL Database. This software was developed at Trinity College Dublin for educational research purposes. If you make use of it, please kindly cite our paper: 
 
-This software was developed at Trinity College Dublin for educational research purposes.
+[An AI Teaching Assistant for Motion Picture Engineering](//ieeexplore.ieee.org/document/11655408)
+> D. O’Regan and A. C. Kokaram, "An AI Teaching Assistant for Motion Picture Engineering [SP Education]," in *IEEE Signal Processing Magazine*, vol. 43, no. 4, pp. 76-84, July 2026, doi: 10.1109/MSP.2026.3665423.
+
+----
 
 See [CHANGELOG.md](CHANGELOG.md) for release history.
 
